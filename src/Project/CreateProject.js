@@ -6,7 +6,6 @@ import {StyleSheet, Text, View, TextInput, Button, ScrollView} from 'react-nativ
 
 
 export default class CreateProject extends React.Component {
-    onPressLearnMore: any;
     github: string;
     epices: string;
     title: string;
@@ -60,10 +59,14 @@ export default class CreateProject extends React.Component {
                     <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                                onChangeText={(text) => this.setState({text})}
                                value={this.deliverydesc} numberOfLines={4} multilines={true}/>
-                    <Button onPress={this.onPressLearnMore} title="Valider" color="#000000"/>
+                <Button onPress={this.onPressButton} title="Valider" color="#000000"/>
                 </View>
             </ScrollView>
         );
+    }
+
+    onPressButton() {
+
     }
 }
 
