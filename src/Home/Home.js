@@ -8,114 +8,56 @@ import {
   View,
   ScrollView,
   Dimensions,
-  Image
+  Image,
+  Modal
 } from "react-native";
-import ProgressBar from "../Shared/ProgressBar";
-const { height, width } = Dimensions.get("window");
+import { Ionicons } from "@expo/vector-icons";
+import FAB from "react-native-fab";
 
+import ProjectList from "./ProjectList";
+import Header from "./Header/Header";
+import CreateProject from "../Project/CreateProject";
+import Profil from "../Profil/Profil";
+
+const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
 
 export default class Home extends React.Component {
+  state = {
+    profil: false,
+    modal: false
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ marginTop: 22 }} />
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>RightTime</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ flex: 0.9 }}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={require("../assets/guillaume.tran.jpg")}
-                  resizeMode="contain"
-                />
-              </View>
-            </View>
-            <ProgressBar percentage={90} />
-          </View>
-          <View style={styles.separator} />
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>SalesUp</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ flex: 0.9 }}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={require("../assets/guillaume.tran.jpg")}
-                  resizeMode="contain"
-                />
-              </View>
-            </View>
-            <ProgressBar percentage={60} />
-          </View>
-          <View style={styles.separator} />
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>Homer</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1 }} />
-            <ProgressBar percentage={20} />
-          </View>
-          <View style={styles.separator} />
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>Hungry</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1 }} />
-            <ProgressBar percentage={50} />
-          </View>
-          <View style={styles.separator} />
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>RightTime</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1 }} />
-            <ProgressBar percentage={60} />
-          </View>
-          <View style={styles.separator} />
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>RightTime</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1 }} />
-            <ProgressBar percentage={90} />
-          </View>
-          <View style={styles.separator} />
-        </ScrollView>
+        <Header openProfil={() => this.setState({ profil: true })} />
+        <ProjectList />
+        <FAB
+          buttonColor="red"
+          iconTextColor="white"
+          onClickAction={() => {
+            this.setState({ modal: true });
+          }}
+          visible={true}
+          iconTextComponent={<Ionicons name="ios-add" />}
+        />
+        <Modal
+          visible={this.state.modal}
+          presentationStyle="fullScreen"
+          animationType="slide"
+          onRequestClose={() => this.setState({ modal: false })}
+        >
+          <CreateProject />
+        </Modal>
+        <Modal
+          visible={this.state.profil}
+          presentationStyle="fullScreen"
+          animationType="slide"
+          onRequestClose={() => this.setState({ profil: false })}
+        >
+          <Profil />
+        </Modal>
       </View>
     );
   }
@@ -123,40 +65,6 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    flexDirection: "column",
-    paddingLeft: "3%",
-    paddingRight: "3%"
-  },
-  card: {
-    height: cardHeight,
-    backgroundColor: "#EFEFEF",
-    borderRadius: 15,
-    justifyContent: "space-between"
-  },
-  header: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  line: {
-    flex: 0.9,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  title: {
-    fontSize: 30,
-    color: "#585858",
-    fontFamily: "sukhumvitset"
-  },
-  epices: {
-    fontSize: 15,
-    color: "#808080",
-    fontFamily: "sukhumvitset"
-  },
-  separator: {
-    height: 15
+    flex: 1
   }
 });

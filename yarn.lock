@@ -4389,6 +4389,12 @@ react-native-branch@2.0.0-beta.3:
   version "2.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.0.0-beta.3.tgz#2167af86bbc9f964bd45bd5f37684e5b54965e32"
 
+react-native-fab@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-fab/-/react-native-fab-1.0.6.tgz#d8c3b98213e0ee790c4412902efb5eb75772b1ea"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-gesture-handler@1.0.0-alpha.28:
   version "1.0.0-alpha.28"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0-alpha.28.tgz#198c776b7b7d299f9b03017f666a9829f996e30d"
@@ -4431,12 +4437,6 @@ react-native-svg@5.4.2:
   dependencies:
     color "^0.11.1"
     lodash "^4.16.6"
-
-react-native-tab-view@^0.0.70:
-  version "0.0.70"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.70.tgz#1dd2ded32acd0cb6bfef38d26e53675db733b37b"
-  dependencies:
-    prop-types "^15.5.10"
 
 react-native-vector-icons@4.1.1:
   version "4.1.1"
