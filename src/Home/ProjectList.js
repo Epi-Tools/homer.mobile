@@ -71,6 +71,7 @@ export default class ProjectList extends React.Component {
             </View>
             <ProgressBar percentage={60} />
           </View>
+          <View style={styles.separator} />
           <View style={styles.card}>
             <View style={styles.header}>
               <View style={styles.line}>
