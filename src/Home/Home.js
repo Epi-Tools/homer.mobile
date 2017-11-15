@@ -30,7 +30,13 @@ export default class Home extends React.Component {
     project: false
   };
 
-  render() {
+
+    constructor(props) {
+        super(props);
+    }
+
+
+    render() {
     return (
       <View style={styles.container}>
         <Header openProfil={() => this.setState({ profil: true })} />

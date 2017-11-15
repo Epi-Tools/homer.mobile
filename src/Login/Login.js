@@ -18,7 +18,7 @@ export default class Login extends React.Component {
   };
 
   onLogin() {
-    let details = {
+    /*let details = {
       username: this.state.username,
       password: this.state.password
     };
@@ -45,7 +45,8 @@ export default class Login extends React.Component {
       .catch(err => {
         console.log(err);
       });
-    //this.props.connectUser()
+    */
+      this.props.connectUser();
   }
 
   render() {
@@ -58,6 +59,7 @@ export default class Login extends React.Component {
         />
         <TextInput
           style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          secureTextEntry={true}
           onChangeText={text => this.setState({ password: text })}
           value={this.password}
         />

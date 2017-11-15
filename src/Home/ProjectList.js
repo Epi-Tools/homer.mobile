@@ -30,7 +30,6 @@ export default class ProjectList extends React.Component {
     }
 
   render() {
-    this.getProjects();
     return (
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     color: "#585858",
-    fontFamily: "sukhumvitset"
+      fontFamily: "sukhumvitset"
   },
   epices: {
     fontSize: 15,

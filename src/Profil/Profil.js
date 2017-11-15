@@ -16,20 +16,15 @@ import ProgressBar from "../Shared/ProgressBar";
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
 const cardWidth = width / 2;
+const nbrEpices = 60;
 
 export default class Profil extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={require("../assets/guillaume.tran.jpg")}
-          resizeMode="contain"
-        />
         <View>
-          <Text>Tran</Text>
-          <Text>Guillaume</Text>
-          <Text>225 épices</Text>
+          <Text style={styles.title}>Tran Guillaume</Text>
+          <Text style={styles.epices}>60 épices</Text>
         </View>
         <View style={styles.separator} />
         <View style={styles.delimiter} />
