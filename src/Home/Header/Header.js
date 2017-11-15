@@ -37,7 +37,7 @@ export default class Header extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.15,
+    flex: 0.1,
     paddingTop: 22,
     backgroundColor: "#60AAFF",
     flexDirection: "row",

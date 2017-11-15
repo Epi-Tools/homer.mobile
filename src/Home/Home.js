@@ -16,8 +16,9 @@ import FAB from "react-native-fab";
 
 import ProjectList from "./ProjectList";
 import Header from "./Header/Header";
-import CreateProject from "../Project/CreateProject";
+import CreateProject from "../CreateProject/CreateProject";
 import Profil from "../Profil/Profil";
+import Project from "../Project/Project";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
@@ -25,14 +26,15 @@ const cardHeight = height / 5;
 export default class Home extends React.Component {
   state = {
     profil: false,
-    modal: false
+    modal: false,
+    project: false
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Header openProfil={() => this.setState({ profil: true })} />
-        <ProjectList />
+        <ProjectList showModal={() => this.setState({project: true})} />
         <FAB
           buttonColor="red"
           iconTextColor="white"
@@ -57,6 +59,14 @@ export default class Home extends React.Component {
           onRequestClose={() => this.setState({ profil: false })}
         >
           <Profil />
+        </Modal>
+        <Modal
+          visible={this.state.project}
+          presentationStyle="fullScreen"
+          animationType="slide"
+          onRequestClose={() => this.setState({ project: false })}
+        >
+          <Project />
         </Modal>
       </View>
     );

@@ -8,7 +8,8 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 
 import ProgressBar from "../Shared/ProgressBar";
@@ -22,7 +23,11 @@ export default class ProjectList extends React.Component {
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           <View style={styles.separator} />
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+            activeOpacity={0.7}
+          >
             <View style={styles.header}>
               <View style={styles.line}>
                 <Text style={styles.title}>RightTime</Text>
@@ -45,9 +50,13 @@ export default class ProjectList extends React.Component {
               </View>
             </View>
             <ProgressBar percentage={90} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.separator} />
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+            activeOpacity={0.7}
+          >
             <View style={styles.header}>
               <View style={styles.line}>
                 <Text style={styles.title}>SalesUp</Text>
@@ -70,9 +79,13 @@ export default class ProjectList extends React.Component {
               </View>
             </View>
             <ProgressBar percentage={60} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.separator} />
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+            activeOpacity={0.7}
+          >
             <View style={styles.header}>
               <View style={styles.line}>
                 <Text style={styles.title}>Homer</Text>
@@ -81,9 +94,12 @@ export default class ProjectList extends React.Component {
             </View>
             <View style={{ flex: 1 }} />
             <ProgressBar percentage={20} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.separator} />
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+          >
             <View style={styles.header}>
               <View style={styles.line}>
                 <Text style={styles.title}>RightTime</Text>
@@ -106,10 +122,12 @@ export default class ProjectList extends React.Component {
               </View>
             </View>
             <ProgressBar percentage={90} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.separator} />
-          <View style={styles.separator} />
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+          >
             <View style={styles.header}>
               <View style={styles.line}>
                 <Text style={styles.title}>RightTime</Text>
@@ -132,7 +150,7 @@ export default class ProjectList extends React.Component {
               </View>
             </View>
             <ProgressBar percentage={90} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.separator} />
         </ScrollView>
       </View>
