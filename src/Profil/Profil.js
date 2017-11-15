@@ -34,7 +34,9 @@ export default class Profil extends React.Component {
         <View style={styles.separator} />
         <View style={styles.delimiter} />
         <View style={styles.separator} />
-        <View style={{ flex: 1 }}>
+        <View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+          <View>
           <Text>Mes projets</Text>
           <View style={styles.separator} />
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
@@ -45,7 +47,6 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
             <View style={{ width: 10 }} />
@@ -56,7 +57,6 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
             <View style={{ width: 10 }} />
@@ -67,13 +67,12 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
           </ScrollView>
         </View>
         <View style={styles.separator} />
-        <View style={{ flex: 1 }}>
+        <View>
           <Text>Projets soutenus</Text>
           <View style={styles.separator} />
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
@@ -84,7 +83,6 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
             <View style={{ width: 10 }} />
@@ -95,7 +93,6 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
             <View style={{ width: 10 }} />
@@ -106,14 +103,12 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
-              <View style={{ flex: 0.1 }} />
             </View>
           </ScrollView>
         </View>
         <View style={styles.separator} />
-        <View style={{ flex: 1 }}>
+        <View>
           <Text>Projets terminées</Text>
           <View style={styles.separator} />
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
@@ -124,7 +119,6 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
             <View style={{ width: 10 }} />
@@ -135,7 +129,6 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
             <View style={{ width: 10 }} />
@@ -146,9 +139,10 @@ export default class Profil extends React.Component {
                   <Text style={styles.epices}>225/225</Text>
                 </View>
               </View>
-              <View style={{ flex: 1 }} />
               <ProgressBar percentage={70} />
             </View>
+          </ScrollView>
+        </View>
           </ScrollView>
         </View>
       </View>
