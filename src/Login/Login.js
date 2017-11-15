@@ -18,16 +18,33 @@ export default class Login extends React.Component {
   };
 
   onLogin() {
+    let details = {
+      username: this.state.username,
+      password: this.state.password
+    };
+
+    let formBody = [];
+    for (let property in details) {
+      let encodedKey = encodeURIComponent(property);
+      let encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    console.log(formBody);
     fetch("http://10.14.58.12:8080/login", {
       method: "POST",
-      form: {
-        username: this.state.username,
-        password: this.state.password
-      }
-    }).then(res => {
-      console.log(res);
-    });
-    console.debug(this.state.username + this.state.password);
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formBody
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     //this.props.connectUser()
   }
 
