@@ -34,116 +34,124 @@ export default class Profil extends React.Component {
         <View style={styles.separator} />
         <View style={styles.delimiter} />
         <View style={styles.separator} />
-        <View>
-          <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ flex: 1 }}>
           <View>
-          <Text>Mes projets</Text>
+            <Text>Mes projets</Text>
+            <View style={styles.separator} />
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+            >
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
+                </View>
+                <ProgressBar percentage={70} />
+              </View>
+              <View style={{ width: 10 }} />
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
+                </View>
+                <ProgressBar percentage={70} />
+              </View>
+              <View style={{ width: 10 }} />
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
+                </View>
+                <ProgressBar percentage={70} />
+              </View>
+            </ScrollView>
+          </View>
           <View style={styles.separator} />
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
+          <View style={{ flex: 1 }}>
+            <Text>Projets soutenus</Text>
+            <View style={styles.separator} />
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+            >
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
                 </View>
+                <ProgressBar percentage={70} />
               </View>
-              <ProgressBar percentage={70} />
-            </View>
-            <View style={{ width: 10 }} />
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
+              <View style={{ width: 10 }} />
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
                 </View>
+                <ProgressBar percentage={70} />
               </View>
-              <ProgressBar percentage={70} />
-            </View>
-            <View style={{ width: 10 }} />
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
+              <View style={{ width: 10 }} />
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
                 </View>
+                <ProgressBar percentage={70} />
               </View>
-              <ProgressBar percentage={70} />
-            </View>
-          </ScrollView>
-        </View>
-        <View style={styles.separator} />
-        <View>
-          <Text>Projets soutenus</Text>
+            </ScrollView>
+          </View>
           <View style={styles.separator} />
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
+          <View style={{ flex: 1 }}>
+            <Text>Projets terminées</Text>
+            <View style={styles.separator} />
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+            >
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
                 </View>
+                <ProgressBar percentage={70} />
               </View>
-              <ProgressBar percentage={70} />
-            </View>
-            <View style={{ width: 10 }} />
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
+              <View style={{ width: 10 }} />
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
                 </View>
+                <ProgressBar percentage={70} />
               </View>
-              <ProgressBar percentage={70} />
-            </View>
-            <View style={{ width: 10 }} />
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
+              <View style={{ width: 10 }} />
+              <View style={styles.card}>
+                <View style={styles.header}>
+                  <View style={styles.line}>
+                    <Text style={styles.title}>RightTime</Text>
+                    <Text style={styles.epices}>225/225</Text>
+                  </View>
                 </View>
+                <ProgressBar percentage={70} />
               </View>
-              <ProgressBar percentage={70} />
-            </View>
-          </ScrollView>
-        </View>
-        <View style={styles.separator} />
-        <View>
-          <Text>Projets terminées</Text>
-          <View style={styles.separator} />
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
-                </View>
-              </View>
-              <ProgressBar percentage={70} />
-            </View>
-            <View style={{ width: 10 }} />
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
-                </View>
-              </View>
-              <ProgressBar percentage={70} />
-            </View>
-            <View style={{ width: 10 }} />
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.line}>
-                  <Text style={styles.title}>RightTime</Text>
-                  <Text style={styles.epices}>225/225</Text>
-                </View>
-              </View>
-              <ProgressBar percentage={70} />
-            </View>
-          </ScrollView>
-        </View>
-          </ScrollView>
+            </ScrollView>
+            <View style={styles.separator} />
+          </View>
         </View>
       </View>
     );

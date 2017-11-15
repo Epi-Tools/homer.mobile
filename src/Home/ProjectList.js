@@ -18,7 +18,19 @@ const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
 
 export default class ProjectList extends React.Component {
+    getProjects() {
+        fetch('http://10.14.58.12:8080/api/projects')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
   render() {
+    this.getProjects();
     return (
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
