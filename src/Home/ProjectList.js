@@ -29,21 +29,6 @@ export default class ProjectList extends React.Component {
                 <Text style={styles.epices}>225/225</Text>
               </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ flex: 0.9 }}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={require("../assets/guillaume.tran.jpg")}
-                  resizeMode="contain"
-                />
-              </View>
-            </View>
             <ProgressBar percentage={90} />
           </View>
           <View style={styles.separator} />
@@ -52,21 +37,6 @@ export default class ProjectList extends React.Component {
               <View style={styles.line}>
                 <Text style={styles.title}>SalesUp</Text>
                 <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ flex: 0.9 }}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={require("../assets/guillaume.tran.jpg")}
-                  resizeMode="contain"
-                />
               </View>
             </View>
             <ProgressBar percentage={60} />
@@ -79,7 +49,6 @@ export default class ProjectList extends React.Component {
                 <Text style={styles.epices}>225/225</Text>
               </View>
             </View>
-            <View style={{ flex: 1 }} />
             <ProgressBar percentage={20} />
           </View>
           <View style={styles.separator} />
@@ -88,21 +57,6 @@ export default class ProjectList extends React.Component {
               <View style={styles.line}>
                 <Text style={styles.title}>RightTime</Text>
                 <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ flex: 0.9 }}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={require("../assets/guillaume.tran.jpg")}
-                  resizeMode="contain"
-                />
               </View>
             </View>
             <ProgressBar percentage={90} />
@@ -114,21 +68,6 @@ export default class ProjectList extends React.Component {
               <View style={styles.line}>
                 <Text style={styles.title}>RightTime</Text>
                 <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ flex: 0.9 }}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={require("../assets/guillaume.tran.jpg")}
-                  resizeMode="contain"
-                />
               </View>
             </View>
             <ProgressBar percentage={90} />
@@ -176,6 +115,6 @@ const styles = StyleSheet.create({
     fontFamily: "sukhumvitset"
   },
   separator: {
-    height: 15
+    height: 10
   }
 });

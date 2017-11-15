@@ -26,7 +26,7 @@ export default class Header extends React.Component {
         >
           <Image
             style={{ flex: 0.5 }}
-            source={require("../../assets/guillaume.tran.jpg")}
+            source={require("../../assets/profile.png")}
             resizeMode="contain"
           />
         </TouchableOpacity>
