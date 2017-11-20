@@ -8,7 +8,7 @@ import {
   View,
   TextInput,
   Button,
-  Navigator
+  Navigator, Alert
 } from "react-native";
 
 export default class Login extends React.Component {
@@ -43,9 +43,8 @@ export default class Login extends React.Component {
             console.log(response.status)
             if (response.status === 200) {
                 this.props.connectUser();
-            } else
-            {
-              console.log("Fucking error bitch !")
+            } else {
+                Alert.alert( 'Authentication Error', 'Invalid username and password.', [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: false });
             }
         })
       .catch(err => {
