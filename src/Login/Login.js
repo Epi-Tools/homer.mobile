@@ -18,7 +18,7 @@ export default class Login extends React.Component {
   };
 
   onLogin() {
-    /*let details = {
+    let details = {
       username: this.state.username,
       password: this.state.password
     };
@@ -32,21 +32,25 @@ export default class Login extends React.Component {
     formBody = formBody.join("&");
 
     console.log(formBody);
-    fetch("http://10.14.58.12:8080/login", {
+    fetch("http://10.14.58.45:8080/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: formBody
     })
-      .then(res => {
-        console.log(res);
-      })
+        .then((response) => {
+            console.log(response.status)
+            if (response.status === 200) {
+                this.props.connectUser();
+            } else
+            {
+              console.log("Fucking error bitch !")
+            }
+        })
       .catch(err => {
         console.log(err);
       });
-    */
-      this.props.connectUser();
   }
 
   render() {
