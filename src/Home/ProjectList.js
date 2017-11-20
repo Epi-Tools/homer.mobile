@@ -20,11 +20,10 @@ export default class ProjectList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {jsonData: []};
-        console.log(this.state.jsonData);
     }
 
     componentWillMount() {
-        fetch("http://10.14.58.45:8080/api/projects", {
+        fetch("http://192.168.1.19:8080/api/projects", {
             method: "GET",
         })
             .then((response) => response.json())
@@ -38,8 +37,7 @@ export default class ProjectList extends React.Component {
             });
     }
 
-    ProjectListRender() {
-        this.state.projects = this.state.jsonData.forEach(function(currentProject, i){
+    ProjectListRender(currentProject, i) {
             return (
                 <View key={i}>
                   <View style={styles.separator} />
@@ -58,16 +56,15 @@ export default class ProjectList extends React.Component {
                   <View style={styles.separator} />
                 </View>
             );
-        });
-    }
+    };
 
   render() {
       let projects = this.state.jsonData;
       return (
         <View style={styles.container}>
-            {projects.map(item => <Text>{item.name}</Text>)}
+            {projects.map((item,i) => this.ProjectListRender(item, i))}
         </View>
-    );
+        );
   }
 }
 
