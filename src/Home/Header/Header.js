@@ -17,13 +17,11 @@ export default class Header extends React.Component {
             flex: 2,
             flexDirection: "row",
             alignItems: "center"
-          }}
-        >
+          }}>
           <Text style={styles.title}>Homer</Text>
         </View>
         <TouchableOpacity style={{ flex: 1, justifyContent: "center" }}
-                          onPress={() => this.props.openProfil()}
-        >
+                          onPress={() => this.props.openProfil()}>
           <Image
             style={{ flex: 0.5 }}
             source={require("../../assets/profile.png")}

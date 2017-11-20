@@ -5,22 +5,7 @@ export default class Project extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = this.getProjects();
-    }
-
-
-    getProjects() {
-        return fetch("http://10.14.58.12:8080/api/projects", {
-            method: "GET",
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-                console.log(responseJson.map);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        this.state.project = this.getProjects();
     }
 
     render() {
