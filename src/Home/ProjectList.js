@@ -7,29 +7,32 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 
 import ProgressBar from "../Shared/ProgressBar";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
+const GLOBAL = require('../Global');
+
 
 export default class ProjectList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {jsonData: []};
+        this.state = {projects: []};
     }
 
     componentWillMount() {
-        fetch("http://192.168.1.19:8080/api/projects", {
+        fetch(GLOBAL.SERVER_URL + "/api/projects", {
             method: "GET",
         })
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    jsonData: responseJson
+                    projects: responseJson
                 });
             })
             .catch((error) => {
@@ -43,7 +46,7 @@ export default class ProjectList extends React.Component {
                   <View style={styles.separator} />
                   <TouchableOpacity
                       style={styles.card}
-                      onPress={() => this.props.showModal()}
+                      onPress={() => this.props.showModal(i + 1)}
                       activeOpacity={0.7}>
                     <View style={styles.header}>
                       <View style={styles.line}>
@@ -59,10 +62,12 @@ export default class ProjectList extends React.Component {
     };
 
   render() {
-      let projects = this.state.jsonData;
+      let projects = this.state.projects;
       return (
         <View style={styles.container}>
+            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             {projects.map((item,i) => this.ProjectListRender(item, i))}
+            </ScrollView>
         </View>
         );
   }

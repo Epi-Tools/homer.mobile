@@ -25,22 +25,18 @@ const cardHeight = height / 5;
 
 export default class Home extends React.Component {
   state = {
+    idProject: 0,
     profil: false,
     modal: false,
-    project: false
+    project: false,
   };
-
-
-    constructor(props) {
-        super(props);
-    }
 
 
     render() {
     return (
       <View style={styles.container}>
         <Header openProfil={() => this.setState({ profil: true })} />
-        <ProjectList showModal={() => this.setState({project: true})} />
+        <ProjectList showModal={(i) => this.setState({project: true, idProject: i})} />
         <FAB
           buttonColor="red"
           iconTextColor="white"
@@ -56,7 +52,7 @@ export default class Home extends React.Component {
           animationType="slide"
           onRequestClose={() => this.setState({ modal: false })}
         >
-          <CreateProject />
+            <CreateProject />
         </Modal>
         <Modal
           visible={this.state.profil}
@@ -72,7 +68,7 @@ export default class Home extends React.Component {
           animationType="slide"
           onRequestClose={() => this.setState({ project: false })}
         >
-          <Project />
+          <Project Id={this.state.idProject}/>
         </Modal>
       </View>
     );

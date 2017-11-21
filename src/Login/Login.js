@@ -11,13 +11,18 @@ import {
   Navigator, Alert
 } from "react-native";
 
+const GLOBAL = require('../Global');
+
 export default class Login extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
   };
 
-  onLogin() {
+
+
+
+    onLogin() {
     let details = {
       username: this.state.username,
       password: this.state.password
@@ -32,7 +37,7 @@ export default class Login extends React.Component {
     formBody = formBody.join("&");
 
     console.log(formBody);
-    fetch("http://10.14.58.45:8080/login", {
+    fetch(GLOBAL.SERVER_URL + "/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -44,7 +49,8 @@ export default class Login extends React.Component {
             if (response.status === 200) {
                 this.props.connectUser();
             } else {
-                Alert.alert( 'Authentication Error', 'Invalid username and password.', [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: false });
+                Alert.alert( 'Authentication Error', 'Invalid username and password.',
+                    [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: true });
             }
         })
       .catch(err => {
