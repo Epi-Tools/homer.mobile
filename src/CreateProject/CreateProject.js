@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TextInput, Button, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Button, ScrollView, Alert} from 'react-native';
 
 const GLOBAL = require("../Global");
 
@@ -71,8 +71,21 @@ export default class CreateProject extends React.Component {
             body: JSON.stringify(project)
         })
             .then((response) => response.json())
-            .then((responseData) => { console.log(responseData); })
-            .catch((err) => { console.log(err); });
+            .then((responseData) => { console.log(responseData);
+                Alert.alert(
+                    "Project created",
+                    "The project has been successfully created.",
+                    [{ text: "OK", onPress: () => this.props.closeModal() }],
+                    { cancelable: false });
+            })
+            .catch((err) => {
+                Alert.alert(
+                    "Internet Connection Error",
+                    "Please check your internet connection.",
+                    [{ text: "OK", onPress: () => console.log(err)}],
+                    { cancelable: true });
+            console.log(err);
+        });
     }
 
     render() {

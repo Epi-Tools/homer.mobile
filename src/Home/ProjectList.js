@@ -3,12 +3,12 @@
  */
 import React from "react";
 import {
-  Text,
-  StyleSheet,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  ScrollView
+    Text,
+    StyleSheet,
+    View,
+    Dimensions,
+    TouchableOpacity,
+    ScrollView, RefreshControl
 } from "react-native";
 
 import ProgressBar from "../Shared/ProgressBar";
@@ -24,8 +24,15 @@ export default class ProjectList extends React.Component {
     this.state = {
       loading: true,
       error: false,
-      projects: []
+      projects: [],
+      refreshing: false
     };
+  }
+
+    _onRefresh() {
+      this.setState({refreshing: true});
+        this.fetchProjects();
+        this.setState({refreshing: false});
   }
 
   componentDidMount() {
@@ -109,7 +116,7 @@ export default class ProjectList extends React.Component {
       );
     return (
       <View style={styles.container}>
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} refreshControl={ <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}>
           {this.state.projects.map((item, i) =>
             this.ProjectListRender(item, i)
           )}

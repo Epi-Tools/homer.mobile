@@ -53,7 +53,7 @@ export default class Home extends React.Component {
           animationType="slide"
           onRequestClose={() => this.setState({ modal: false })}
         >
-          <CreateProject />
+          <CreateProject closeModal={() => this.setState({ project: false })}/>
         </Modal>
         <Modal
           visible={this.state.profil}

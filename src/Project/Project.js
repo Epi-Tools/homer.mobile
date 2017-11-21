@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Image
 } from "react-native";
 
 const GLOBAL = require("../Global");
@@ -50,9 +51,13 @@ export default class Project extends React.Component {
           >
             <TouchableOpacity
               onPress={() => this.props.closeModal()}
-              style={{ flex: 1, backgroundColor: "red" }}
+              style={{ flex: 1}}
             >
-              <Text>Close</Text>
+                <Image
+                    style={{ flex: 0.5 }}
+                    source={require("../assets/back-button.png")}
+                    resizeMode="contain"
+                />
             </TouchableOpacity>
             <Text style={styles.title}>{project.name}</Text>
             <View style={{ flex: 1 }} />
