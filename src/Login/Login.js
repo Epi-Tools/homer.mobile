@@ -7,22 +7,23 @@ import {
   Text,
   View,
   TextInput,
-  Button,
-  Navigator,
   Alert,
   TouchableOpacity,
   Image
 } from "react-native";
+import Loader from "../Shared/Loader";
 
 const GLOBAL = require("../Global");
 
 export default class Login extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    loading: false
   };
 
   onLogin() {
+    this.setState({ loading: true });
     let details = {
       username: this.state.username,
       password: this.state.password
@@ -45,6 +46,7 @@ export default class Login extends React.Component {
       body: formBody
     })
       .then(response => {
+        this.setState({ loading: false });
         console.log(response.status);
         if (response.status === 200) {
           this.props.connectUser();
@@ -59,6 +61,7 @@ export default class Login extends React.Component {
       })
       .catch(err => {
         console.log(err);
+        this.setState({ loading: false });
       });
   }
 
@@ -123,15 +126,19 @@ export default class Login extends React.Component {
                   borderRadius: 15
                 }}
               >
-                <Text
-                  style={{
-                    color: "#E3E3E3",
-                    fontSize: 20,
-                    fontFamily: "sukhumvitset"
-                  }}
-                >
-                  Se connecter
-                </Text>
+                {this.state.loading ? (
+                  <Loader />
+                ) : (
+                  <Text
+                    style={{
+                      color: "#E3E3E3",
+                      fontSize: 20,
+                      fontFamily: "sukhumvitset"
+                    }}
+                  >
+                    Se connecter
+                  </Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>
