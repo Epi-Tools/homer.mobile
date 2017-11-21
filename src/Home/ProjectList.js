@@ -15,7 +15,7 @@ import ProgressBar from "../Shared/ProgressBar";
 import Loader from "../Shared/Loader";
 
 const { height, width } = Dimensions.get("window");
-const cardHeight = height / 5;
+const cardHeight = height / 6;
 const GLOBAL = require("../Global");
 
 export default class ProjectList extends React.Component {
@@ -23,24 +23,32 @@ export default class ProjectList extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      error: "",
+      error: false,
       projects: []
     };
   }
 
   componentDidMount() {
+    this.fetchProjects();
+  }
+
+  fetchProjects() {
     fetch(GLOBAL.SERVER_URL + "/api/projects", {
       method: "GET"
     })
-      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        response.json();
+      })
       .then(responseJson => {
         this.setState({
+          projects: responseJson,
           loading: false,
-          projects: responseJson
+          error: false
         });
       })
       .catch(error => {
-        this.setState({ loading: false, errorMessage: error });
+        this.setState({ loading: false, error: true });
       });
   }
 
@@ -69,11 +77,36 @@ export default class ProjectList extends React.Component {
   }
 
   render() {
-    if (this.state.loading) return <Loader />;
-    if (this.state.error != "")
+    if (this.state.loading)
       return (
         <View style={styles.container}>
-          <Text style={{ color: "red" }}>{this.state.error}</Text>
+          <Loader />
+        </View>
+      );
+    if (this.state.error)
+      return (
+        <View style={[styles.container, { justifyContent: "center" }]}>
+          <View style={{ flex: 0.2, justifyContent: "center", alignItems: "center" }}>
+            <Text style={styles.errorMessage}>
+              Impossible de charger les projets
+            </Text>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                width: '80%',
+                backgroundColor: "#60AAFF",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 15
+              }}
+              onPress={() => {
+                this.setState({loading: true})
+                this.fetchProjects()
+              }}
+            >
+              <Text>Réessayer</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     return (
@@ -125,5 +158,11 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 10
+  },
+  errorMessage: {
+    fontSize: 20,
+      flex: 1,
+    color: "red",
+    fontFamily: "sukhumvitset"
   }
 });

@@ -28,15 +28,16 @@ export default class Home extends React.Component {
     idProject: 0,
     profil: false,
     modal: false,
-    project: false,
+    project: false
   };
 
-
-    render() {
+  render() {
     return (
       <View style={styles.container}>
         <Header openProfil={() => this.setState({ profil: true })} />
-        <ProjectList showModal={(i) => this.setState({project: true, idProject: i})} />
+        <ProjectList
+          showModal={i => this.setState({ project: true, idProject: i })}
+        />
         <FAB
           buttonColor="red"
           iconTextColor="white"
@@ -52,7 +53,7 @@ export default class Home extends React.Component {
           animationType="slide"
           onRequestClose={() => this.setState({ modal: false })}
         >
-            <CreateProject />
+          <CreateProject />
         </Modal>
         <Modal
           visible={this.state.profil}
@@ -64,11 +65,15 @@ export default class Home extends React.Component {
         </Modal>
         <Modal
           visible={this.state.project}
-          presentationStyle="fullScreen"
+          presentationStyle="overFullScreen"
+          transparent={true}
           animationType="slide"
           onRequestClose={() => this.setState({ project: false })}
         >
-          <Project Id={this.state.idProject}/>
+          <Project
+            Id={this.state.idProject}
+            closeModal={() => this.setState({ project: false })}
+          />
         </Modal>
       </View>
     );
@@ -77,6 +82,7 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "#313030"
   }
 });

@@ -23,6 +23,7 @@ export default class Login extends React.Component {
   };
 
   onLogin() {
+    //this.props.connectUser();
     this.setState({ loading: true });
     let details = {
       username: this.state.username,
@@ -61,6 +62,12 @@ export default class Login extends React.Component {
       })
       .catch(err => {
         console.log(err);
+          Alert.alert(
+              "Authentication Error",
+              "Network request failed.",
+              [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+              { cancelable: true }
+          );
         this.setState({ loading: false });
       });
   }
