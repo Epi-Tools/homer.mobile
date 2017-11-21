@@ -97,8 +97,9 @@ export default class Login extends React.Component {
                   style={styles.textInput}
                   onChangeText={text => this.setState({ username: text })}
                   value={this.username}
-                  placeholder="Addresse email"
+                  placeholder="Adresse email"
                   placeholderTextColor="#E3E3E3"
+                  underlineColorAndroid="transparent"
                 />
               </View>
               <View style={styles.inputView}>
@@ -109,6 +110,7 @@ export default class Login extends React.Component {
                   value={this.password}
                   placeholder="Mot de passe"
                   placeholderTextColor="#E3E3E3"
+                  underlineColorAndroid="transparent"
                 />
               </View>
               <TouchableOpacity
