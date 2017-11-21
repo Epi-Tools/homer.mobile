@@ -3,108 +3,73 @@
  */
 import React from "react";
 import {
-  Image,
   Text,
   StyleSheet,
   View,
   Dimensions,
-  ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 
 import ProgressBar from "../Shared/ProgressBar";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
+const GLOBAL = require('../Global');
+
 
 export default class ProjectList extends React.Component {
-    getProjects() {
-        fetch('http://10.14.58.12:8080/api/projects')
+
+    constructor(props) {
+        super(props);
+        this.state = {projects: []};
+    }
+
+    componentWillMount() {
+        fetch(GLOBAL.SERVER_URL + "/api/projects", {
+            method: "GET",
+        })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
+                this.setState({
+                    projects: responseJson
+                });
             })
             .catch((error) => {
                 console.error(error);
             });
     }
 
+    ProjectListRender(currentProject, i) {
+            return (
+                <View key={i}>
+                  <View style={styles.separator} />
+                  <TouchableOpacity
+                      style={styles.card}
+                      onPress={() => this.props.showModal(i + 1)}
+                      activeOpacity={0.7}>
+                    <View style={styles.header}>
+                      <View style={styles.line}>
+                        <Text style={styles.title}>{currentProject.name}</Text>
+                        <Text style={styles.epices}>{currentProject.currentSpices} / {currentProject.spices}</Text>
+                      </View>
+                    </View>
+                    <ProgressBar percentage={90} />
+                  </TouchableOpacity>
+                  <View style={styles.separator} />
+                </View>
+            );
+    };
+
   render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => this.props.showModal()}
-            activeOpacity={0.7}
-          >
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>RightTime</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <ProgressBar percentage={90} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => this.props.showModal()}
-            activeOpacity={0.7}
-          >
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>SalesUp</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <ProgressBar percentage={60} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => this.props.showModal()}
-            activeOpacity={0.7}
-          >
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>Homer</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <ProgressBar percentage={20} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => this.props.showModal()}
-          >
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>RightTime</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <ProgressBar percentage={90} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => this.props.showModal()}
-          >
-            <View style={styles.header}>
-              <View style={styles.line}>
-                <Text style={styles.title}>RightTime</Text>
-                <Text style={styles.epices}>225/225</Text>
-              </View>
-            </View>
-            <ProgressBar percentage={90} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-        </ScrollView>
-      </View>
-    );
+      let projects = this.state.projects;
+      return (
+        <View style={styles.container}>
+            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+            {projects.map((item,i) => this.ProjectListRender(item, i))}
+            </ScrollView>
+        </View>
+        );
   }
 }
 
@@ -147,3 +112,72 @@ const styles = StyleSheet.create({
     height: 10
   }
 });
+
+/*      <View style={styles.container}>
+        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+            activeOpacity={0.7}>
+            <View style={styles.header}>
+              <View style={styles.line}>
+                <Text style={styles.title}>RightTime</Text>
+                <Text style={styles.epices}>225/225</Text>
+              </View>
+            </View>
+            <ProgressBar percentage={90} />
+          </TouchableOpacity>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+            activeOpacity={0.7}>
+            <View style={styles.header}>
+              <View style={styles.line}>
+                <Text style={styles.title}>SalesUp</Text>
+                <Text style={styles.epices}>225/225</Text>
+              </View>
+            </View>
+            <ProgressBar percentage={60} />
+          </TouchableOpacity>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}
+            activeOpacity={0.7}>
+            <View style={styles.header}>
+              <View style={styles.line}>
+                <Text style={styles.title}>Homer</Text>
+                <Text style={styles.epices}>225/225</Text>
+              </View>
+            </View>
+            <ProgressBar percentage={20} />
+          </TouchableOpacity>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}>
+            <View style={styles.header}>
+              <View style={styles.line}>
+                <Text style={styles.title}>RightTime</Text>
+                <Text style={styles.epices}>225/225</Text>
+              </View>
+            </View>
+            <ProgressBar percentage={90} />
+          </TouchableOpacity>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.showModal()}>
+            <View style={styles.header}>
+              <View style={styles.line}>
+                <Text style={styles.title}>RightTime</Text>
+                <Text style={styles.epices}>225/225</Text>
+              </View>
+            </View>
+            <ProgressBar percentage={90} />
+          </TouchableOpacity>
+          <View style={styles.separator} />
+        </ScrollView>
+      </View> */

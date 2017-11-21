@@ -18,13 +18,37 @@ const cardHeight = height / 5;
 const cardWidth = width / 2;
 const nbrEpices = 60;
 
+const GLOBAL = require('../Global');
+
 export default class Profil extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {userHomer: ''};
+    }
+    componentWillMount() {
+        fetch(GLOBAL.SERVER_URL + "/api/users/current", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    userHomer: responseJson
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+
   render() {
-    return (
+      let currentUser = this.state.userHomer;
+      return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.title}>Tran Guillaume</Text>
-          <Text style={styles.epices}>60 épices</Text>
+          <Text style={styles.title}>{currentUser.email}</Text>
+          <Text style={styles.epices}>{currentUser.spices} épices</Text>
         </View>
         <View style={styles.separator} />
         <View style={styles.delimiter} />
@@ -159,7 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     color: "#585858",
     fontFamily: "sukhumvitset"
   },
