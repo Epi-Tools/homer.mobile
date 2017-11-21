@@ -39,7 +39,7 @@ export default class CreateProject extends React.Component {
     }
 
 
-    handleNumberInput = (text) => {
+    handleNumberInput(text) {
         if (/^\d+$/.test(text)) {
             this.setState({
                 spices: text
@@ -93,7 +93,7 @@ export default class CreateProject extends React.Component {
                 <Text style={styles.title}>Spices</Text>
                     <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                                keyboardType='numeric'
-                               onChangeText={this.handleNumberInput()}
+                               onChangeText={(text) => this.handleNumberInput(text)}
                                value={this.epices}/>
                 <View style={styles.separator} />
                 <Text style={styles.title}>Description</Text>

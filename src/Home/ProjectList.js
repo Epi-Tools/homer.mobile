@@ -36,20 +36,18 @@ export default class ProjectList extends React.Component {
     fetch(GLOBAL.SERVER_URL + "/api/projects", {
       method: "GET"
     })
-      .then(response => {
-        console.log(response);
-        response.json();
-      })
-      .then(responseJson => {
-        this.setState({
-          projects: responseJson,
-          loading: false,
-          error: false
+        .then(response => response.json())
+        .then(responseJson => {
+            this.setState({
+                projects: responseJson,
+                loading: false,
+                error: false
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            this.setState({ loading: false, error: true });
         });
-      })
-      .catch(error => {
-        this.setState({ loading: false, error: true });
-      });
   }
 
   ProjectListRender(currentProject, i) {
@@ -58,7 +56,7 @@ export default class ProjectList extends React.Component {
         <View style={styles.separator} />
         <TouchableOpacity
           style={styles.card}
-          onPress={() => this.props.showModal(i + 1)}
+          onPress={() => this.props.showModal(currentProject.id)}
           activeOpacity={0.7}
         >
           <View style={styles.header}>
