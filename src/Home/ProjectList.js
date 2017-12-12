@@ -25,7 +25,7 @@ export default class ProjectList extends React.Component {
       loading: true,
       error: false,
       projects: [],
-      refreshing: false
+        refreshing: false
     };
   }
 
@@ -116,11 +116,11 @@ export default class ProjectList extends React.Component {
       );
     return (
       <View style={styles.container}>
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} refreshControl={ <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}>
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} refreshControl={ <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}>
           {this.state.projects.map((item, i) =>
             this.ProjectListRender(item, i)
           )}
-        </ScrollView>
+          </ScrollView>
       </View>
     );
   }

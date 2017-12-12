@@ -1,3 +1,3 @@
 module.exports = {
-    SERVER_URL: "http://10.14.58.7:8080"
+    SERVER_URL: "http://10.14.57.79:8080"
 };
