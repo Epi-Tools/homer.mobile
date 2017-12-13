@@ -19,6 +19,7 @@ export default class EditProject extends React.Component {
             dateFollowUp: "2017-10-10T14:00:00",
             dateFollowUp1: "2017-10-10T14:00:00",
             dateDelivery: "2017-10-10T14:00:00",
+            status : "",
             projectId: props.Id
         };
     }
@@ -39,6 +40,48 @@ export default class EditProject extends React.Component {
             });
     }
 
+    checkInternetConnection() {
+        Alert.alert(
+            "Internet Connection Error",
+            "Please check your internet connection.",
+            [{ text: "OK", onPress: () => console.log("")}],
+            { cancelable: true });
+    }
+
+    deleteMessage() {
+        Alert.alert(
+            "Delete Project",
+            "Do you really want to delete the project : " + this.state.name,
+            [{ text: "OK", onPress: () => this.deleteCurrentProject()},
+                { text: "Cancel", onPress: () => console.log("cancel")}],
+            { cancelable: true });
+    }
+
+    deleteCurrentProject() {
+        if (this.state.status === 0) {
+            fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
+                method: "DELETE",
+            })
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 200)
+                        Alert.alert(
+                            "Project deleted",
+                            "The project has been successfully deleted.",
+                            [{text: "OK", onPress: () => console.log("success")}],
+                            {cancelable: false});
+                })
+                .catch((error) => {
+                    console.error(error);
+                    this.checkInternetConnection()
+                });
+        }
+        else {
+            this.messageAntiDelete("Project deleted", "You can't delete this project.")
+        }
+    }
+
+
     getProjectData() {
         fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
             method: "GET",
@@ -56,10 +99,12 @@ export default class EditProject extends React.Component {
                     dateFollowUp: responseJson.dateFollowUp,
                     dateFollowUp1: responseJson.dateFollowUp1,
                     dateDelivery: responseJson.dateDelivery,
+                    status: responseJson.status
                 });
             })
             .catch((error) => {
                 console.error(error);
+                this.checkInternetConnection()
             });
     }
 
@@ -77,6 +122,14 @@ export default class EditProject extends React.Component {
         }
     }
 
+    messageAntiDelete(title, message) {
+        Alert.alert(
+            title,
+            message,
+            [{text: "OK", onPress: () => console.log("success")}],
+            {cancelable: false});
+    }
+
     onEditProject() {
         console.log(this.state.name);
         let project = {
@@ -92,30 +145,33 @@ export default class EditProject extends React.Component {
             dateDelivery: this.state.dateDelivery,
         };
         console.log(JSON.stringify(project));
-        fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(project)
-        })
-            .then((response) => response.json())
-            .then((responseData) => { console.log(responseData);
-                Alert.alert(
-                    "Project edited",
-                    "The project has been successfully edited.",
-                    [{ text: "OK", onPress: () => console.log("success") }],
-                    { cancelable: false });
+        if (this.state.status === 0) {
+            fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(project)
             })
-            .catch((err) => {
-                Alert.alert(
-                    "Internet Connection Error",
-                    "Please check your internet connection.",
-                    [{ text: "OK", onPress: () => console.log(err)}],
-                    { cancelable: true });
-            console.log(err);
-        });
+                .then((response) => response.json())
+                .then((responseData) => {
+                    console.log(responseData);
+                    Alert.alert(
+                        "Project edited",
+                        "The project has been successfully edited.",
+                        [{text: "OK", onPress: () => console.log("success")}],
+                        {cancelable: false});
+                })
+                .catch((err) => {
+                    this.checkInternetConnection()
+                    console.log(err);
+                });
+        }
+        else
+        {
+            this.messageAntiDelete("Project edited", "You can't edit this project.")
+        }
     }
 
     render() {
@@ -169,7 +225,10 @@ export default class EditProject extends React.Component {
                                value={this.delivery} numberOfLines={4} multilines={true}/>
                 <View style={styles.separator} />
                 <Button onPress={() => this.onEditProject()} title="Edit" color="#000000"/>
-                </View>
+                <View style={styles.separator} />
+                <View style={styles.separator} />
+                <Button onPress={() => this.deleteMessage()} title="Delete" color="#000000"/>
+            </View>
             </ScrollView>
         );
     }
