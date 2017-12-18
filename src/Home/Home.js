@@ -19,6 +19,8 @@ import Header from "./Header/Header";
 import CreateProject from "../CreateProject/CreateProject";
 import Profil from "../Profil/Profil";
 import Project from "../Project/Project";
+import CardModal from "../Shared/CardModal";
+import ModalLine from "../Shared/ModalLine";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
@@ -53,7 +55,7 @@ export default class Home extends React.Component {
           animationType="slide"
           onRequestClose={() => this.setState({ modal: false })}
         >
-          <CreateProject closeModal={() => this.setState({ project: false })}/>
+          <CreateProject closeModal={() => this.setState({ project: false })} />
         </Modal>
         <Modal
           visible={this.state.profil}
@@ -63,18 +65,24 @@ export default class Home extends React.Component {
         >
           <Profil />
         </Modal>
-        <Modal
-          visible={this.state.project}
-          presentationStyle="overFullScreen"
-          transparent={true}
-          animationType="slide"
-          onRequestClose={() => this.setState({ project: false })}
+        <CardModal
+          swipeArea={height / 3}
+          swipeThreshold={50}
+          isOpen={this.state.project}
+          onClosed={() => this.setState({ project: false })}
+          headerSize={0.16}
+          backdropOpacity={0.7}
+          header={
+            <View style={{ flex: 0.16, backgroundColor: "transparent" }}>
+              <ModalLine />
+            </View>
+          }
         >
           <Project
             Id={this.state.idProject}
             closeModal={() => this.setState({ project: false })}
           />
-        </Modal>
+        </CardModal>
       </View>
     );
   }
