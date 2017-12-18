@@ -51,7 +51,7 @@ export default class Profil extends React.Component {
             style={{
               flex: 0.9,
               justifyContent: "center",
-              borderBottomColor: "#D9D9D9",
+              borderBottomColor: "#E0E0E0",
               borderBottomWidth: 1
             }}
           >
@@ -63,10 +63,8 @@ export default class Profil extends React.Component {
                 alignItems: "center"
               }}
             >
-              <Text style={styles.title}>
-                {currentUser.email} guillaume.tran@epitech.eu
-              </Text>
-              <Text style={styles.title}>{currentUser.spices}123 épices</Text>
+              <Text style={styles.title}>{currentUser.email}</Text>
+              <Text style={styles.title}>{currentUser.spices} épices</Text>
             </View>
           </View>
         </View>
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#313030"
   },
   header: {
-    flex: 0.6,
+    flex: 0.5,
     justifyContent: "center",
     flexDirection: "row"
   },

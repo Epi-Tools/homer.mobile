@@ -11,7 +11,7 @@ import {
 import ProgressBar from "../Shared/ProgressBar";
 import Loader from "../Shared/Loader";
 const { height, width } = Dimensions.get("window");
-const cardHeight = height / 6;
+const cardHeight = height / 5;
 const cardWidth = width / 2;
 const GLOBAL = require("../Global");
 
@@ -52,24 +52,27 @@ export default class MyProjectList extends React.Component {
 
   ProjectListRender(currentProject, i) {
     return (
-      <View key={i}>
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => this.props.showModal(currentProject.id)}
-          activeOpacity={0.7}
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => this.props.showModal(currentProject.id)}
+        activeOpacity={0.7}
+      >
+        <View
+          style={{
+            flex: 2,
+            flexDirection: "row",
+            justifyContent: "center"
+          }}
         >
-          <View style={styles.header}>
-            <View style={styles.line}>
-              <Text style={styles.title}>{currentProject.name}</Text>
-              <Text style={styles.epices}>
-                {currentProject.currentSpices} / {currentProject.spices}
-              </Text>
-            </View>
+          <View style={{ flex: 0.9, justifyContent: "center" }}>
+            <Text style={styles.projectText}>{currentProject.name}</Text>
+            <Text style={styles.projectText}>
+              {currentProject.currentSpices} / {currentProject.spices}
+            </Text>
           </View>
-          <ProgressBar percentage={70} />
-          <View style={{ width: 10 }} />
-        </TouchableOpacity>
-      </View>
+        </View>
+        <ProgressBar percentage={70} />
+      </TouchableOpacity>
     );
   }
 
@@ -106,17 +109,31 @@ export default class MyProjectList extends React.Component {
               <Text style={styles.title}>Mes projets</Text>
             </View>
             <View style={styles.viewContent}>
-              <Text style={styles.error}>Vous n''avez aucuns projets</Text>
+              <Text style={styles.error}>Vous n'avez aucuns projets</Text>
             </View>
           </View>
         </View>
       );
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <Text>Mes Projets</Text>
-          <View style={styles.separator} />
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+        <View style={styles.container}>
+          <View style={{ flex: 0.9 }}>
+            <View style={styles.viewTitle}>
+              <Text style={styles.title}>Mes Projets</Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 4,
+            justifyContent: "center"
+          }}
+        >
+          <ScrollView
+            style={{ flex: 1, alignItems: "center" }}
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+          >
             {this.state.projects.map((item, i) =>
               this.ProjectListRender(item, i)
             )}
@@ -144,24 +161,24 @@ const styles = StyleSheet.create({
     fontFamily: "sukhumvitset"
   },
   viewTitle: {
-    flex: 0.3,
+    flex: 1,
     justifyContent: "center"
   },
   viewContent: {
-    flex: 0.5,
+    flex: 1,
     justifyContent: "center"
-  },
-  image: {
-    paddingTop: 30
-  },
-  separator: {
-    height: 15
   },
   card: {
     width: cardWidth,
     height: cardHeight,
     backgroundColor: "#EFEFEF",
     borderRadius: 15,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginLeft: 10
+  },
+  projectText: {
+    fontSize: 16,
+    color: "#545454",
+    fontFamily: "sukhumvitset"
   }
 });
