@@ -54,7 +54,7 @@ export default class MyProjectList extends React.Component {
     return (
       <TouchableOpacity
         style={styles.card}
-        onPress={() => this.props.showModal(currentProject.id)}
+        onPress={() => this.props.openProject(currentProject.id)}
         activeOpacity={0.7}
       >
         <View

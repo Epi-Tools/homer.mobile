@@ -51,13 +51,13 @@ export default class Project extends React.Component {
           >
             <TouchableOpacity
               onPress={() => this.props.closeModal()}
-              style={{ flex: 1}}
+              style={{ flex: 1 }}
             >
-                <Image
-                    style={{ flex: 0.5 }}
-                    source={require("../assets/back-button.png")}
-                    resizeMode="contain"
-                />
+              <Image
+                style={{ flex: 0.5 }}
+                source={require("../assets/back-button.png")}
+                resizeMode="contain"
+              />
             </TouchableOpacity>
             <Text style={styles.title}>{project.name}</Text>
             <View style={{ flex: 1 }} />
@@ -95,7 +95,7 @@ export default class Project extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#313030"
+    padding: 20
   },
   title: {
     color: "#E3E3E3",

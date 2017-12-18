@@ -15,6 +15,9 @@ import {
 import MyProjectList from "./MyProjectList";
 import CompletedProjectsList from "./CompletedProjectsList";
 import SupportedProjectList from "./SupportedProjectList";
+import Project from "../Project/Project";
+import CardModal from "../Shared/CardModal";
+import ModalLine from "../Shared/ModalLine";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
@@ -25,7 +28,7 @@ const GLOBAL = require("../Global");
 export default class Profil extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { userHomer: "" };
+    this.state = { userHomer: "", modal: false, selectedProjectId: null };
   }
   componentWillMount() {
     fetch(GLOBAL.SERVER_URL + "/api/users/current", {
@@ -43,6 +46,7 @@ export default class Profil extends React.Component {
   }
 
   render() {
+    console.log(this.state.selectedProjectId);
     let currentUser = this.state.userHomer;
     return (
       <View style={styles.container}>
@@ -69,7 +73,10 @@ export default class Profil extends React.Component {
           </View>
         </View>
         <View style={{ flex: 1 }}>
-          <MyProjectList />
+          <MyProjectList
+            openProject={projectId =>
+              this.setState({ selectedProjectId: projectId, modal: true })}
+          />
         </View>
         <View style={{ flex: 1 }}>
           <SupportedProjectList />
@@ -77,6 +84,24 @@ export default class Profil extends React.Component {
         <View style={{ flex: 1 }}>
           <CompletedProjectsList />
         </View>
+        <CardModal
+          swipeArea={height / 3}
+          swipeThreshold={50}
+          isOpen={this.state.modal}
+          onClosed={() => this.setState({ modal: false })}
+          headerSize={0.16}
+          backdropOpacity={0.7}
+          header={
+            <View style={{ flex: 0.16, backgroundColor: "transparent" }}>
+              <ModalLine />
+            </View>
+          }
+        >
+          <Project
+            Id={this.state.selectedProjectId}
+            closeModal={() => this.setState({ modal: false })}
+          />
+        </CardModal>
       </View>
     );
   }
