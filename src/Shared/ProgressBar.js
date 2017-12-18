@@ -4,7 +4,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const barHeight = 25;
 
 export default class ProgressBar extends React.Component {
   render() {
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
   },
   bar: {
     flex: 0.9,
-    height: barHeight,
     backgroundColor: "#fff",
     borderRadius: 15,
     flexDirection: "row"
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   status: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: "sukhumvitset",
     color: "#585858"
   }
