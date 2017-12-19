@@ -28,17 +28,17 @@ const cardHeight = height / 5;
 export default class Home extends React.Component {
   state = {
     idProject: 0,
-    profil: false,
-    modal: false,
-    project: false
+    profilModal: false,
+    createModal: false,
+    projectModal: false
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Header openProfil={() => this.setState({ profil: true })} />
+        <Header openProfil={() => this.setState({ profilModal: true })} />
         <ProjectList
-          showModal={i => this.setState({ project: true, idProject: i })}
+          showModal={i => this.setState({ projectModal: true, idProject: i })}
         />
         <FAB
           buttonColor="red"
@@ -50,26 +50,18 @@ export default class Home extends React.Component {
           iconTextComponent={<Ionicons name="ios-add" />}
         />
         <Modal
-          visible={this.state.modal}
+          visible={this.state.profilModal}
           presentationStyle="fullScreen"
           animationType="slide"
-          onRequestClose={() => this.setState({ modal: false })}
+          onRequestClose={() => this.setState({ profilModal: false })}
         >
-          <CreateProject closeModal={() => this.setState({ project: false })} />
-        </Modal>
-        <Modal
-          visible={this.state.profil}
-          presentationStyle="fullScreen"
-          animationType="slide"
-          onRequestClose={() => this.setState({ profil: false })}
-        >
-          <Profil />
+          <Profil closeModal={() => this.setState({ profilModal: false })} />
         </Modal>
         <CardModal
           swipeArea={height / 3}
           swipeThreshold={50}
-          isOpen={this.state.project}
-          onClosed={() => this.setState({ project: false })}
+          isOpen={this.state.projectModal}
+          onClosed={() => this.setState({ projectModal: false })}
           headerSize={0.16}
           backdropOpacity={0.7}
           header={
@@ -80,7 +72,24 @@ export default class Home extends React.Component {
         >
           <Project
             Id={this.state.idProject}
-            closeModal={() => this.setState({ project: false })}
+            closeModal={() => this.setState({ projectModal: false })}
+          />
+        </CardModal>
+        <CardModal
+          swipeArea={height / 3}
+          swipeThreshold={50}
+          isOpen={this.state.createModal}
+          onClosed={() => this.setState({ createModal: false })}
+          headerSize={0.16}
+          backdropOpacity={0.7}
+          header={
+            <View style={{ flex: 0.16, backgroundColor: "transparent" }}>
+              <ModalLine />
+            </View>
+          }
+        >
+          <CreateProject
+            closeModal={() => this.setState({ createModal: false })}
           />
         </CardModal>
       </View>
