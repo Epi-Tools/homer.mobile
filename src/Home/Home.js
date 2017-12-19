@@ -21,6 +21,7 @@ import Profil from "../Profil/Profil";
 import Project from "../Project/Project";
 import CardModal from "../Shared/CardModal";
 import ModalLine from "../Shared/ModalLine";
+import EditProject from "../Profil/EditProject";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
@@ -94,3 +95,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#313030"
   }
 });
+
+//           <EditProject Id={2} />

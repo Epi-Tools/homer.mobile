@@ -1,12 +1,13 @@
 import React from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-  Image
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    ScrollView,
+    Dimensions,
+    Image,
+    Button, Picker, Alert
 } from "react-native";
 
 const GLOBAL = require("../Global");
@@ -17,7 +18,9 @@ export default class Project extends React.Component {
     super(props);
     this.state = {
       idProject: props.Id,
-      projectInfo: []
+        userId: 0,
+      projectInfo: [],
+      bets: 5
     };
   }
 
@@ -34,6 +37,57 @@ export default class Project extends React.Component {
       })
       .catch(error => {
         console.error(error);
+      });
+      fetch(GLOBAL.SERVER_URL + "/api/users/current", {
+          method: "GET"
+      })
+          .then(response => response.json())
+          .then(responseJson => {
+              this.setState({
+                  userId: responseJson.id
+              });
+          })
+          .catch(error => {
+              console.error(error);
+          });
+  }
+
+
+  alertMessage(title, message) {
+      Alert.alert(
+          title,
+          message,
+          [{text: "OK", onPress: () => console.log("success")}],
+          {cancelable: false});
+  }
+
+  betsProject() {
+      let project = {
+          userId: this.state.userId,
+          projectId: this.state.idProject,
+          spices: this.state.bets
+      };
+      fetch(GLOBAL.SERVER_URL + "/api/bets/", {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(project)
+      })
+          .then(response => {
+              let message = response.json();
+              console.log(message);
+              if (response.status === 200) {
+                  this.alertMessage("Bets", "You successfully bet " + this.state.bets + " spices on this project")
+              }
+              else {
+                  this.alertMessage("Error", message.error)
+              }
+          })
+          .catch(error => {
+          this.alertMessage("Authentication Error", "Network request failed.");
+          console.error(error);
       });
   }
 
@@ -85,6 +139,13 @@ export default class Project extends React.Component {
               <Text style={styles.text}>{project.dateDelivery}</Text>
             </View>
             <Text style={styles.text}>{project.delivery}</Text>
+              <Picker style={styles.picker}
+                  selectedValue={this.state.bets}
+                  onValueChange={(itemValue, itemIndex) => this.setState({bets: itemValue})}>
+                  <Picker.Item label="5" value={5} />
+                  <Picker.Item label="15" value={15} />
+              </Picker>
+              <Button onPress={() => this.betsProject()} title="Bets" color="#000000"/>
           </View>
         </ScrollView>
       </View>
@@ -97,10 +158,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20
   },
+    picker: {
+        color: "#E3E3E3",
+    },
   title: {
-    color: "#E3E3E3",
+      color: "#E3E3E3",
     fontSize: 40,
-    fontFamily: "sukhumvitset"
+      fontFamily: "sukhumvitset"
   },
   text: {
     color: "#E3E3E3",
