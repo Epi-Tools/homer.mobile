@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import { Font } from "expo";
 import Home from "./src/Home/Home";
 import Loader from "./src/Shared/Loader";
@@ -25,12 +25,14 @@ export default class App extends React.Component {
     if (!this.state.isLogged) {
       return (
         <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
           <Login connectUser={() => this.setState({ isLogged: true })} />
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
           <Home />
         </View>
       );
