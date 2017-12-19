@@ -20,6 +20,7 @@ import SupportedProjectList from "./SupportedProjectList";
 import Project from "../Project/Project";
 import CardModal from "../Shared/CardModal";
 import ModalLine from "../Shared/ModalLine";
+import EditProject from "./EditProject";
 
 const { height, width } = Dimensions.get("window");
 const cardHeight = height / 5;
@@ -28,10 +29,12 @@ const cardWidth = width / 2;
 const GLOBAL = require("../Global");
 
 export default class Profil extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = { userHomer: "", modal: false, selectedProjectId: null };
+    this.state = { userHomer: "", modal: false, selectedProjectId: null, user: "" };
   }
+
   componentWillMount() {
     fetch(GLOBAL.SERVER_URL + "/api/users/current", {
       method: "GET"
@@ -39,7 +42,8 @@ export default class Profil extends React.Component {
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
-          userHomer: responseJson
+          userHomer: responseJson,
+            user: responseJson.email
         });
       })
       .catch(error => {
@@ -72,7 +76,7 @@ export default class Profil extends React.Component {
               <TouchableOpacity onPress={() => this.props.closeModal()}>
                 <Ionicons name="ios-close-outline" size={50} color="white" />
               </TouchableOpacity>
-              <Text style={styles.title}>{currentUser.email}</Text>
+              <Text style={styles.title}>{this.state.user.split('@').shift().split('.').join(" ")}</Text>
               <Text style={styles.title}>{currentUser.spices} épices</Text>
             </View>
           </View>
@@ -102,7 +106,7 @@ export default class Profil extends React.Component {
             </View>
           }
         >
-          <Project
+          <EditProject
             Id={this.state.selectedProjectId}
             closeModal={() => this.setState({ modal: false })}
           />

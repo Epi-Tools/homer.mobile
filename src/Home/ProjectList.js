@@ -63,7 +63,7 @@ export default class ProjectList extends React.Component {
         <View style={styles.separator} />
         <TouchableOpacity
           style={styles.card}
-          onPress={() => this.props.showModal(currentProject.id)}
+          onPress={() => this.props.showModal(currentProject.id, currentProject.status)}
           activeOpacity={0.7}
         >
           <View style={styles.header}>

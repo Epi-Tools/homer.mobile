@@ -28,6 +28,7 @@ const cardHeight = height / 5;
 export default class Home extends React.Component {
   state = {
     idProject: 0,
+      projectStatus: false,
     profilModal: false,
     createModal: false,
     projectModal: false
@@ -38,7 +39,7 @@ export default class Home extends React.Component {
       <View style={styles.container}>
         <Header openProfil={() => this.setState({ profilModal: true })} />
         <ProjectList
-          showModal={i => this.setState({ projectModal: true, idProject: i })}
+          showModal={(i, status) => this.setState({ projectModal: true, idProject: i, projectStatus: status })}
         />
         <FAB
           buttonColor="red"
@@ -71,7 +72,7 @@ export default class Home extends React.Component {
           }
         >
           <Project
-            Id={this.state.idProject}
+            Id={this.state.idProject} status={this.state.projectStatus}
             closeModal={() => this.setState({ projectModal: false })}
           />
         </CardModal>
