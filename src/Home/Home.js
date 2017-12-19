@@ -44,7 +44,7 @@ export default class Home extends React.Component {
           buttonColor="red"
           iconTextColor="white"
           onClickAction={() => {
-            this.setState({ modal: true });
+            this.setState({ createModal: true });
           }}
           visible={true}
           iconTextComponent={<Ionicons name="ios-add" />}
@@ -103,3 +103,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#313030"
   }
 });
+
+//           <EditProject Id={2} />

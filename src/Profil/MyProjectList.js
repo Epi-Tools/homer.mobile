@@ -56,6 +56,7 @@ export default class MyProjectList extends React.Component {
         style={styles.card}
         onPress={() => this.props.openProject(currentProject.id)}
         activeOpacity={0.7}
+        key={i}
       >
         <View
           style={{
@@ -130,7 +131,6 @@ export default class MyProjectList extends React.Component {
           }}
         >
           <ScrollView
-            style={{ flex: 1, alignItems: "center" }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
           >

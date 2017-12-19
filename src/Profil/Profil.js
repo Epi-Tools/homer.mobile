@@ -9,9 +9,11 @@ import {
   View,
   Image,
   Dimensions,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
 import MyProjectList from "./MyProjectList";
 import CompletedProjectsList from "./CompletedProjectsList";
 import SupportedProjectList from "./SupportedProjectList";
@@ -67,6 +69,9 @@ export default class Profil extends React.Component {
                 alignItems: "center"
               }}
             >
+              <TouchableOpacity onPress={() => this.props.closeModal()}>
+                <Ionicons name="ios-close-outline" size={50} color="white" />
+              </TouchableOpacity>
               <Text style={styles.title}>{currentUser.email}</Text>
               <Text style={styles.title}>{currentUser.spices} épices</Text>
             </View>
