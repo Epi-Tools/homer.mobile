@@ -26,7 +26,8 @@ export default class Project extends React.Component {
         usersBet: [],
         projectInfo: [],
       bets: 5,
-        status: props.status
+        status: props.status,
+        button: 1
     };
     console.log(this.state.status);
   }
@@ -71,7 +72,7 @@ export default class Project extends React.Component {
   CheckUserBet() {
       this.state.usersBet.map((item, i) => {
          if (item.userId === this.state.userId)
-             this.setState({status: 0})
+             this.setState({button: 0})
       });
   }
 
@@ -151,57 +152,7 @@ export default class Project extends React.Component {
 
   render() {
     let project = this.state.projectInfo;
-    if (this.state.status === 0)
-      return (
-      <View style={styles.container}>
-        <View
-          style={{
-            flex: 0.2,
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <Text style={styles.title}>{project.name}</Text>
-        </View>
-        <ScrollView style={{ flex: 1 }}>
-          <View
-            style={{
-              backgroundColor: "#525050",
-              borderLeftWidth: 4,
-              borderLeftColor: "#60AAFF",
-              padding: 20
-            }}
-          >
-            <Text style={styles.text}>{project.description}</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <View style={styles.date}>
-              <Text style={styles.text}>
-                {Moment(project.dateFollowUp).format("LL")}
-              </Text>
-            </View>
-            <Text style={styles.text}>{project.followUp}</Text>
-            <View style={styles.date}>
-              <Text style={styles.text}>
-                {Moment(project.dateFollowUp1).format("LL")}
-              </Text>
-            </View>
-            <Text style={styles.text}>{project.followUp1}</Text>
-            <View style={styles.date}>
-              <Text style={styles.text}>
-                {Moment(project.dateDelivery).format("LL")}
-              </Text>
-            </View>
-            <Text style={styles.text}>{project.delivery}</Text>
-          </View>
-            <View style={styles.separator}/>
-            {this.state.usersBet.map((item, i) =>
-                this.UserListRender(item, i)
-            )}
-        </ScrollView>
-      </View>
-    );
-    else
+    if (this.state.status !== 0 && this.state.button !== 0)
         return (
             <View style={styles.container}>
                 <View
@@ -281,6 +232,56 @@ export default class Project extends React.Component {
                                 Bets
                             </Text>
                         </TouchableOpacity>
+                    </View>
+                    <View style={styles.separator}/>
+                    {this.state.usersBet.map((item, i) =>
+                        this.UserListRender(item, i)
+                    )}
+                </ScrollView>
+            </View>
+        );
+    else
+        return (
+            <View style={styles.container}>
+                <View
+                    style={{
+                        flex: 0.2,
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                >
+                    <Text style={styles.title}>{project.name}</Text>
+                </View>
+                <ScrollView style={{ flex: 1 }}>
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>{project.description}</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <View style={styles.date}>
+                            <Text style={styles.text}>
+                                {Moment(project.dateFollowUp).format("LL")}
+                            </Text>
+                        </View>
+                        <Text style={styles.text}>{project.followUp}</Text>
+                        <View style={styles.date}>
+                            <Text style={styles.text}>
+                                {Moment(project.dateFollowUp1).format("LL")}
+                            </Text>
+                        </View>
+                        <Text style={styles.text}>{project.followUp1}</Text>
+                        <View style={styles.date}>
+                            <Text style={styles.text}>
+                                {Moment(project.dateDelivery).format("LL")}
+                            </Text>
+                        </View>
+                        <Text style={styles.text}>{project.delivery}</Text>
                     </View>
                     <View style={styles.separator}/>
                     {this.state.usersBet.map((item, i) =>

@@ -193,7 +193,7 @@ export default class CreateProject extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff"
+      backgroundColor: "#fff"
   },
   title: {
     color: "#E3E3E3",
@@ -214,22 +214,4 @@ const styles = StyleSheet.create({
   }
 });
 
-/*
-    <Text style={styles.title}>Date FollowUp 1</Text>
-                <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                               onChangeText={(text) => this.setState({dateFollowUp: text})}
-                               value={this.desc} />
-                <View style={styles.separator} />
 
-                      <View style={styles.separator} />
-                <Text style={styles.title}>Date FollowUp 2</Text>
-                <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                               onChangeText={(text) => this.setState({dateFollowUp1: text})}
-                               value={this.followdesc1}/>
-
-                                        <View style={styles.separator} />
-                <Text style={styles.title}>Date Delivery</Text>
-                <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                               onChangeText={(text) => this.setState({dateDelivery: text})}
-                               value={this.followdesc2} numberOfLines={4} multilines={true}/>
- */
