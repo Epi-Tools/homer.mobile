@@ -38,7 +38,6 @@ export default class Login extends React.Component {
     }
     formBody = formBody.join("&");
 
-    console.log(formBody);
     fetch(GLOBAL.SERVER_URL + "/login", {
       method: "POST",
       headers: {
@@ -48,7 +47,6 @@ export default class Login extends React.Component {
     })
       .then(response => {
         this.setState({ loading: false });
-        console.log(response.status);
         if (response.status === 200) {
           this.props.connectUser();
         } else {

@@ -4,11 +4,12 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   ScrollView,
   Alert,
   TouchableOpacity
 } from "react-native";
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import Moment from "moment/moment";
 
 const GLOBAL = require("../Global");
 
@@ -25,9 +26,35 @@ export default class CreateProject extends React.Component {
       delivery: "",
       dateFollowUp: "2017-10-10T14:00:00",
       dateFollowUp1: "2017-10-10T14:00:00",
-      dateDelivery: "2017-10-10T14:00:00"
+      dateDelivery: "2017-10-10T14:00:00",
+        isDateTimePickerVisible: false,
+        type: -1
     };
   }
+
+  setDateTimePicker(choose) {
+      this.setState({type: choose})
+      this.showDateTimePicker();
+  }
+
+    showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+    hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+    handleDatePicked = (date) => {
+        console.log("Number : " + this.state.type)
+        console.log('A date has been picked: ', date);
+        if (this.state.type === 0) {
+            this.setState({ dateFollowUp: date });
+        } else if (this.state.type === 1) {
+            this.setState({ dateFollowUp1: date });
+        } else if (this.state.type === 2) {
+            this.setState({ dateDelivery: date });
+        }
+        this.setState({type: -1});
+        this.hideDateTimePicker();
+    };
+
 
   componentWillMount() {
     fetch(GLOBAL.SERVER_URL + "/api/users/current", {
@@ -63,9 +90,9 @@ export default class CreateProject extends React.Component {
       followUp: this.state.followUp,
       followUp1: this.state.followUp1,
       delivery: this.state.delivery,
-      dateFollowUp: "2017-10-10T14:00:00",
-      dateFollowUp1: "2017-10-10T14:00:00",
-      dateDelivery: "2017-10-10T14:00:00"
+      dateFollowUp: this.state.dateFollowUp,
+      dateFollowUp1: this.state.dateFollowUp1,
+      dateDelivery: this.state.dateDelivery
     };
     console.log(JSON.stringify(project));
     fetch(GLOBAL.SERVER_URL + "/api/projects", {
@@ -134,35 +161,109 @@ export default class CreateProject extends React.Component {
             multilines={true}
           />
           <View style={styles.separator} />
-
           <Text style={styles.label}>FollowUp 1</Text>
-          <TextInput
-            style={{ height: 80, borderColor: "gray", borderWidth: 1 }}
-            onChangeText={text => this.setState({ followUp: text })}
-            value={this.follow1}
-            numberOfLines={4}
-            multilines={true}
-          />
+            <TextInput
+                style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                onChangeText={text => this.setState({ followUp: text })}
+                placeholder={this.state.followUp}
+                numberOfLines={4}
+                multilines={true}
+            />
+            <View style={styles.separator} />
+            <TouchableOpacity
+                onPress={() => this.setDateTimePicker(0)}
+                style={{
+                    flex: 1,
+                    height: 60,
+                    backgroundColor: "#60AAFF",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 15
+                }}
+            >
+                <Text
+                    style={{
+                        color: "#E3E3E3",
+                        fontSize: 20,
+                        fontFamily: "sukhumvitset"
+                    }}
+                >
+                    Date Follow Up 1
+                </Text>
+            </TouchableOpacity>
+            <Text style={styles.label}>{Moment(this.state.dateFollowUp).format("LL")}</Text>
+            <View style={styles.separator} />
+            <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this.handleDatePicked}
+                onCancel={this.hideDateTimePicker}
+            />
 
-          <View style={styles.separator} />
-          <Text style={styles.label}>FollowUp 2</Text>
-          <TextInput
-            style={{ height: 80, borderColor: "gray", borderWidth: 1 }}
-            onChangeText={text => this.setState({ followUp1: text })}
-            value={this.follow2}
-            numberOfLines={4}
-            multilines={true}
-          />
-
-          <View style={styles.separator} />
+            <Text style={styles.label}>FollowUp 2</Text>
+            <TextInput
+                style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                onChangeText={text => this.setState({ followUp1: text })}
+                value={this.follow2}
+                placeholder={this.state.followUp1}
+                numberOfLines={4}
+                multilines={true}
+            />
+            <View style={styles.separator} />
+            <TouchableOpacity
+                onPress={() => this.setDateTimePicker(1)}
+                style={{
+                    flex: 1,
+                    height: 60,
+                    backgroundColor: "#60AAFF",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 15
+                }}
+            >
+                <Text
+                    style={{
+                        color: "#E3E3E3",
+                        fontSize: 20,
+                        fontFamily: "sukhumvitset"
+                    }}
+                >
+                    Date Follow Up 2
+                </Text>
+            </TouchableOpacity>
+            <Text style={styles.label}>{Moment(this.state.dateFollowUp1).format("LL")}</Text>
+            <View style={styles.separator} />
           <Text style={styles.label}>Delivery</Text>
-          <TextInput
-            style={{ height: 80, borderColor: "gray", borderWidth: 1 }}
-            onChangeText={text => this.setState({ delivery: text })}
-            value={this.delivery}
-            numberOfLines={4}
-            multilines={true}
-          />
+            <TextInput
+                style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                onChangeText={text => this.setState({ delivery: text })}
+                value={this.delivery}
+                placeholder={this.state.delivery}
+                numberOfLines={4}
+                multilines={true}
+            />
+            <View style={styles.separator} />
+            <TouchableOpacity
+                onPress={() => this.setDateTimePicker(2)}
+                style={{
+                    flex: 1,
+                    height: 60,
+                    backgroundColor: "#60AAFF",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 15
+                }}
+            >
+                <Text
+                    style={{
+                        color: "#E3E3E3",
+                        fontSize: 20,
+                        fontFamily: "sukhumvitset"
+                    }}
+                >
+                    Date Delivery
+                </Text>
+            </TouchableOpacity>
+            <Text style={styles.label}>{Moment(this.state.dateDelivery).format("LL")}</Text>
           <View style={styles.separator} />
           <TouchableOpacity
             onPress={() => this.onCreateProject()}
