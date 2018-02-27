@@ -17,8 +17,8 @@ export default class CreateProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 1,
-      spices: 0,
+      userId: -1,
+      spices: -1,
       name: "",
       description: "",
       followUp: "",
@@ -80,8 +80,58 @@ export default class CreateProject extends React.Component {
     }
   }
 
+  SendProjectDatas(project) {
+      fetch(GLOBAL.SERVER_URL + "/api/projects", {
+          method: "POST",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(project)
+      })
+          .then(response => response.json())
+          .then(responseData => {
+              console.log(responseData);
+              Alert.alert(
+                  "Project created",
+                  "The project has been successfully created.",
+                  [{ text: "OK", onPress: () => this.props.closeModal() }],
+                  { cancelable: false }
+              );
+          })
+          .catch(err => {
+              this.errorMessage("Internet Connection Error", "Please check your internet connection.");
+              console.log(err);
+          });
+  }
+
+  errorMessage(title, message) {
+      Alert.alert(
+          title,
+          message,
+          [{ text: "OK", onPress: () => console.log("message") }],
+          { cancelable: true }
+      );
+  }
+
+  checkProjectDatas () {
+      if (this.state.userId === -1 ||
+          this.state.spices === -1 ||
+          this.state.name === "" ||
+          this.state.description === "" ||
+          this.state.followUp === "" ||
+          this.state.followUp1 === "" ||
+          this.state.delivery === "" ||
+          this.state.dateFollowUp === "" ||
+          this.state.dateFollowUp1 === "" ||
+          this.state.dateDelivery === "")
+      {
+          return false;
+      };
+      return true;
+  }
+
   onCreateProject() {
-    console.log(this.state.name);
     let project = {
       userId: this.state.userId,
       spices: this.state.spices,
@@ -95,33 +145,10 @@ export default class CreateProject extends React.Component {
       dateDelivery: this.state.dateDelivery
     };
     console.log(JSON.stringify(project));
-    fetch(GLOBAL.SERVER_URL + "/api/projects", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(project)
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        console.log(responseData);
-        Alert.alert(
-          "Project created",
-          "The project has been successfully created.",
-          [{ text: "OK", onPress: () => this.props.closeModal() }],
-          { cancelable: false }
-        );
-      })
-      .catch(err => {
-        Alert.alert(
-          "Internet Connection Error",
-          "Please check your internet connection.",
-          [{ text: "OK", onPress: () => console.log(err) }],
-          { cancelable: true }
-        );
-        console.log(err);
-      });
+    if (this.checkProjectDatas())
+        this.SendProjectDatas(project);
+      else
+          this.errorMessage("Error", "A field is still empty.");
   }
 
   render() {

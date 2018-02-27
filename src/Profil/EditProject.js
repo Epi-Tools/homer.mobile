@@ -11,8 +11,8 @@ export default class EditProject extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: 1,
-            spices: 0,
+            userId: -1,
+            spices: -1,
             name: "",
             description: "",
             followUp: "",
@@ -159,6 +159,47 @@ export default class EditProject extends React.Component {
             {cancelable: false});
     }
 
+    checkProjectDatas () {
+        if (this.state.userId === -1 ||
+            this.state.spices === -1 ||
+            this.state.name === "" ||
+            this.state.description === "" ||
+            this.state.followUp === "" ||
+            this.state.followUp1 === "" ||
+            this.state.delivery === "" ||
+            this.state.dateFollowUp === "" ||
+            this.state.dateFollowUp1 === "" ||
+            this.state.dateDelivery === "")
+        {
+            return false;
+        };
+        return true;
+    }
+
+    SendProjectsDatas(project) {
+        fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(project)
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
+                Alert.alert(
+                    "Project edited",
+                    "The project has been successfully edited.",
+                    [{text: "OK", onPress: () => console.log("success")}],
+                    {cancelable: false});
+            })
+            .catch((err) => {
+                this.checkInternetConnection()
+                console.log(err);
+            });
+    }
+
     onEditProject() {
         console.log(this.state.name);
         let project = {
@@ -175,31 +216,13 @@ export default class EditProject extends React.Component {
         };
         console.log(JSON.stringify(project));
         if (this.state.status === 0) {
-            fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(project)
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    console.log(responseData);
-                    Alert.alert(
-                        "Project edited",
-                        "The project has been successfully edited.",
-                        [{text: "OK", onPress: () => console.log("success")}],
-                        {cancelable: false});
-                })
-                .catch((err) => {
-                    this.checkInternetConnection()
-                    console.log(err);
-                });
+            if (this.checkProjectDatas())
+                this.SendProjectsDatas(project);
+            else
+                this.messageAntiDelete("Error", "A field is still empty.");
         }
-        else
-        {
-            this.messageAntiDelete("Project edited", "You can't edit this project.")
+        else {
+            this.messageAntiDelete("Project edition", "You can't edit this project.")
         }
     }
 
