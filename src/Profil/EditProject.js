@@ -1,5 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, TextInput, Button, ScrollView, Alert, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TextInput, ScrollView, Alert, TouchableOpacity} from 'react-native';
+import Moment from "moment/moment";
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 const GLOBAL = require("../Global");
 
@@ -16,13 +18,40 @@ export default class EditProject extends React.Component {
             followUp: "",
             followUp1: "",
             delivery: "",
-            dateFollowUp: "2017-10-10T14:00:00",
-            dateFollowUp1: "2017-10-10T14:00:00",
-            dateDelivery: "2017-10-10T14:00:00",
+            dateFollowUp: "",
+            dateFollowUp1: "",
+            dateDelivery: "",
             status : "",
-            projectId: props.Id
+            projectId: props.Id,
+            type: -1,
+            isDateTimePickerVisible: false
         };
     }
+
+    setDateTimePicker(choose) {
+        this.setState({type: choose})
+        this.showDateTimePicker();
+    }
+
+    showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+    hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+    handleDatePicked = (date) => {
+        console.log("Number : " + this.state.type)
+        console.log('A date has been picked: ', date);
+        if (this.state.type === 0) {
+            this.setState({ dateFollowUp: date });
+        } else if (this.state.type === 1) {
+            this.setState({ dateFollowUp1: date });
+        } else if (this.state.type === 2) {
+            this.setState({ dateDelivery: date });
+        }
+        this.setState({type: -1});
+        this.hideDateTimePicker();
+    };
+
+
 
     getUserData() {
         fetch(GLOBAL.SERVER_URL + "/api/users/current", {
@@ -187,29 +216,31 @@ export default class EditProject extends React.Component {
                     <Text style={styles.title}>Editer un projet</Text>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this.handleDatePicked}
+                        onCancel={this.hideDateTimePicker}
+                    />
                     <Text style={styles.label}>Name</Text>
                     <TextInput
-                        style={{ height: 40, borderColor: "white", borderWidth: 1 }}
-                        placeholder={this.state.name}
+                        style={{ height: 40, borderColor: "white", borderWidth: 1, color: "white" }}
                         onChangeText={text => this.setState({ name: text })}
-                        value={this.title}
+                        value={this.state.name}
                     />
                     <View style={styles.separator} />
                     <Text style={styles.label}>Spices</Text>
                     <TextInput
-                        style={{ height: 40, borderColor: "white", borderWidth: 1 }}
+                        style={{ height: 40, borderColor: "white", borderWidth: 1, color: "white" }}
                         keyboardType="numeric"
-                        placeholder={this.state.spices.toString()}
                         onChangeText={text => this.handleNumberInput(text)}
-                        value={this.epices}
+                        value={this.state.spices.toString()}
                     />
                     <View style={styles.separator} />
                     <Text style={styles.label}>Description</Text>
                     <TextInput
-                        style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                        style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                         onChangeText={text => this.setState({ description: text })}
-                        placeholder={this.state.description}
-                        value={this.description}
+                        value={this.state.description}
                         numberOfLines={4}
                         multilines={true}
                     />
@@ -217,35 +248,101 @@ export default class EditProject extends React.Component {
 
                     <Text style={styles.label}>FollowUp 1</Text>
                     <TextInput
-                        style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                        style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                         onChangeText={text => this.setState({ followUp: text })}
-                        value={this.follow1}
-                        placeholder={this.state.followUp}
+                        value={this.state.followUp}
                         numberOfLines={4}
                         multilines={true}
                     />
+                    <View style={styles.separator} />
+                    <TouchableOpacity
+                        onPress={() => this.setDateTimePicker(0)}
+                        style={{
+                            flex: 1,
+                            height: 60,
+                            backgroundColor: "#60AAFF",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: 15
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "#E3E3E3",
+                                fontSize: 20,
+                                fontFamily: "sukhumvitset"
+                            }}
+                        >
+                            Date Follow Up 1
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.label}>{Moment(this.state.dateFollowUp).format("LL")}</Text>
 
                     <View style={styles.separator} />
                     <Text style={styles.label}>FollowUp 2</Text>
                     <TextInput
-                        style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                        style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                         onChangeText={text => this.setState({ followUp1: text })}
-                        value={this.follow2}
-                        placeholder={this.state.followUp1}
+                        value={this.state.followUp1}
                         numberOfLines={4}
                         multilines={true}
                     />
-
                     <View style={styles.separator} />
+                    <TouchableOpacity
+                        onPress={() => this.setDateTimePicker(1)}
+                        style={{
+                            flex: 1,
+                            height: 60,
+                            backgroundColor: "#60AAFF",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: 15
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "#E3E3E3",
+                                fontSize: 20,
+                                fontFamily: "sukhumvitset"
+                            }}
+                        >
+                            Date Follow Up 2
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.label}>{Moment(this.state.dateFollowUp1).format("LL")}</Text>
+                    <View style={styles.separator} />
+
                     <Text style={styles.label}>Delivery</Text>
                     <TextInput
-                        style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                        style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                         onChangeText={text => this.setState({ delivery: text })}
-                        value={this.delivery}
-                        placeholder={this.state.delivery}
+                        value={this.state.delivery}
                         numberOfLines={4}
                         multilines={true}
                     />
+                    <View style={styles.separator} />
+                    <TouchableOpacity
+                        onPress={() => this.setDateTimePicker(2)}
+                        style={{
+                            flex: 1,
+                            height: 60,
+                            backgroundColor: "#60AAFF",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: 15
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "#E3E3E3",
+                                fontSize: 20,
+                                fontFamily: "sukhumvitset"
+                            }}
+                        >
+                            Date Delivery
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.label}>{Moment(this.state.dateDelivery).format("LL")}</Text>
                     <View style={styles.separator} />
                     <TouchableOpacity
                         onPress={() => this.onEditProject()}

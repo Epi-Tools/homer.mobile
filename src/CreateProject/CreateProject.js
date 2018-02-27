@@ -24,9 +24,9 @@ export default class CreateProject extends React.Component {
       followUp: "",
       followUp1: "",
       delivery: "",
-      dateFollowUp: "2017-10-10T14:00:00",
-      dateFollowUp1: "2017-10-10T14:00:00",
-      dateDelivery: "2017-10-10T14:00:00",
+      dateFollowUp: "",
+      dateFollowUp1: "",
+      dateDelivery: "",
         isDateTimePickerVisible: false,
         type: -1
     };
@@ -139,33 +139,29 @@ export default class CreateProject extends React.Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.label}>Name</Text>
           <TextInput
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+            style={{ height: 40, borderColor: "gray", borderWidth: 1, color: "white" }}
             onChangeText={text => this.setState({ name: text })}
-            value={this.title}
           />
           <View style={styles.separator} />
           <Text style={styles.label}>Spices</Text>
           <TextInput
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+            style={{ height: 40, borderColor: "gray", borderWidth: 1, color: "white" }}
             keyboardType="numeric"
             onChangeText={text => this.handleNumberInput(text)}
-            value={this.epices}
           />
           <View style={styles.separator} />
           <Text style={styles.label}>Description</Text>
           <TextInput
-            style={{ height: 80, borderColor: "gray", borderWidth: 1 }}
+            style={{ height: 80, borderColor: "gray", borderWidth: 1, color: "white" }}
             onChangeText={text => this.setState({ description: text })}
-            value={this.description}
             numberOfLines={4}
             multilines={true}
           />
           <View style={styles.separator} />
           <Text style={styles.label}>FollowUp 1</Text>
             <TextInput
-                style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                 onChangeText={text => this.setState({ followUp: text })}
-                placeholder={this.state.followUp}
                 numberOfLines={4}
                 multilines={true}
             />
@@ -201,10 +197,8 @@ export default class CreateProject extends React.Component {
 
             <Text style={styles.label}>FollowUp 2</Text>
             <TextInput
-                style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                 onChangeText={text => this.setState({ followUp1: text })}
-                value={this.follow2}
-                placeholder={this.state.followUp1}
                 numberOfLines={4}
                 multilines={true}
             />
@@ -234,10 +228,8 @@ export default class CreateProject extends React.Component {
             <View style={styles.separator} />
           <Text style={styles.label}>Delivery</Text>
             <TextInput
-                style={{ height: 80, borderColor: "white", borderWidth: 1 }}
+                style={{ height: 80, borderColor: "white", borderWidth: 1, color: "white" }}
                 onChangeText={text => this.setState({ delivery: text })}
-                value={this.delivery}
-                placeholder={this.state.delivery}
                 numberOfLines={4}
                 multilines={true}
             />
