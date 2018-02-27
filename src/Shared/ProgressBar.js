@@ -19,7 +19,7 @@ export default class ProgressBar extends React.Component {
         <View style={styles.container}>
           <View style={styles.bar}>
             <View style={[{ flex: percentage / 100 }, styles.progress]}>
-              <Text style={styles.status}>Follow-up 1 en cours</Text>
+              <Text style={styles.status}> </Text>
             </View>
           </View>
         </View>

@@ -72,7 +72,7 @@ export default class MyProjectList extends React.Component {
             </Text>
           </View>
         </View>
-        <ProgressBar percentage={70} />
+        <ProgressBar percentage={(currentProject.status / 6) * 100} />
       </TouchableOpacity>
     );
   }

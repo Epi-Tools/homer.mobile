@@ -57,7 +57,25 @@ export default class ProjectList extends React.Component {
         });
   }
 
+  getCurrentStatus(status) {
+      if (status === 0)
+          return ("En création");
+      else if (status === 1)
+          return ("Lancé");
+      else if (status === 2)
+          return ("Validé");
+      else if (status === 3)
+          return ("Follow-up 1");
+      else if (status === 4)
+          return ("Follow-up 2");
+      else if (status === 5)
+          return ("Delivery");
+      else
+          return ("Terminé");
+  }
+
   ProjectListRender(currentProject, i) {
+      let status = this.getCurrentStatus(currentProject.status);
     return (
       <View key={i}>
         <View style={styles.separator} />
@@ -68,13 +86,16 @@ export default class ProjectList extends React.Component {
         >
           <View style={styles.header}>
             <View style={styles.line}>
-              <Text style={styles.title}>{currentProject.name}</Text>
-              <Text style={styles.epices}>
+                <Text style={styles.title}>{currentProject.name}</Text>
+                <Text style={styles.epices}>
                 {currentProject.currentSpices} / {currentProject.spices}
               </Text>
             </View>
           </View>
-          <ProgressBar percentage={90} />
+            <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                <Text style={styles.epices}>{status}</Text>
+            </View>
+            <ProgressBar percentage={(currentProject.status / 6) * 100} />
         </TouchableOpacity>
         <View style={styles.separator} />
       </View>
