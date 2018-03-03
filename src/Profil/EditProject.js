@@ -96,8 +96,8 @@ export default class EditProject extends React.Component {
                         Alert.alert(
                             "Project deleted",
                             "The project has been successfully deleted.",
-                            [{text: "OK", onPress: () => console.log("success")}],
-                            {cancelable: false});
+                            [{text: "OK", onPress: () => this.props.closeModal()}],
+                            {cancelable: true});
                 })
                 .catch((error) => {
                     console.error(error);
@@ -188,10 +188,11 @@ export default class EditProject extends React.Component {
             .then((responseData) => {
                 console.log(responseData);
                 Alert.alert(
-                    "Project edited",
+                    "Project created",
                     "The project has been successfully edited.",
-                    [{text: "OK", onPress: () => console.log("success")}],
-                    {cancelable: false});
+                    [{ text: "OK", onPress: () => this.props.closeModal() }],
+                    { cancelable: false }
+                );
             })
             .catch((err) => {
                 this.checkInternetConnection()

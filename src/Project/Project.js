@@ -39,7 +39,7 @@ export default class Project extends React.Component {
   }
 
   GetProjectInfo() {
-      fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.idProject, {
+      fetch(GLOBAL.SERVER_URL + GLOBAL.PROJECTS + this.state.idProject, {
           method: "GET"
       })
           .then(response => response.json())
@@ -54,7 +54,7 @@ export default class Project extends React.Component {
   }
 
   GetUserInfo() {
-      fetch(GLOBAL.SERVER_URL + "/api/users/current", {
+      fetch(GLOBAL.SERVER_URL + GLOBAL.USER, {
           method: "GET"
       })
           .then(response => response.json())
@@ -77,7 +77,7 @@ export default class Project extends React.Component {
   }
 
   GetBetUserList() {
-      fetch(GLOBAL.SERVER_URL + "/api/bets/project/provided/" + this.state.idProject, {
+      fetch(GLOBAL.SERVER_URL + GLOBAL.BETS + this.state.idProject, {
           method: "GET"
       })
           .then(response => response.json())
@@ -119,7 +119,7 @@ export default class Project extends React.Component {
       projectId: this.state.idProject,
       spices: this.state.bets
     };
-    fetch(GLOBAL.SERVER_URL + "/api/bets/", {
+    fetch(GLOBAL.SERVER_URL + GLOBAL.USE_BET, {
       method: "POST",
       headers: {
         Accept: "application/json",

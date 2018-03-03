@@ -29,7 +29,7 @@ export default class Spectators extends React.Component {
     }
 
     fetchUsers() {
-        fetch(GLOBAL.SERVER_URL + "/api/bets/project/provided/" + this.state.projectId, {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.BETS + this.state.projectId, {
             method: "GET"
         })
             .then(response => response.json())
