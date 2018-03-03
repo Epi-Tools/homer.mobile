@@ -46,7 +46,7 @@ export default class ProjectList extends React.Component {
         .then(response => response.json())
         .then(responseJson => {
             this.setState({
-                projects: responseJson,
+                projects: responseJson.reverse(),
                 loading: false,
                 error: false
             });
