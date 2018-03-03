@@ -58,7 +58,7 @@ export default class SupportedProjectsList extends React.Component {
         return (
             <TouchableOpacity
                 style={styles.card}
-                onPress={() => this.props.openProject(currentProject.id)}
+                onPress={() => this.props.openProject(currentProject.projectId, currentProject.projectStatus)}
                 activeOpacity={0.7}
                 key={i}
             >
@@ -76,7 +76,7 @@ export default class SupportedProjectsList extends React.Component {
                         </Text>
                     </View>
                 </View>
-                <ProgressBar percentage={(currentProject.status / 6) * 100} />
+                <ProgressBar percentage={(currentProject.projectStatus / 6) * 100} />
             </TouchableOpacity>
         );
     }

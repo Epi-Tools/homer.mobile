@@ -58,7 +58,7 @@ ProjectListRender(currentProject, i) {
     return (
         <TouchableOpacity
             style={styles.card}
-            onPress={() => this.props.openProject(currentProject.id)}
+            onPress={() => this.props.openProject(currentProject.id, currentProject.status)}
             activeOpacity={0.7}
             key={i}
         >

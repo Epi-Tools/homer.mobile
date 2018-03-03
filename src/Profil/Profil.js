@@ -32,7 +32,7 @@ export default class Profil extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { userHomer: "", modal: false, selectedProjectId: null, user: "" };
+    this.state = { userHomer: "", modal: false, detailModal: false, selectedProjectId: null, user: "", status: 0 };
   }
 
   componentWillMount() {
@@ -88,11 +88,12 @@ export default class Profil extends React.Component {
           />
         </View>
         <View style={{ flex: 1 }}>
-          <SupportedProjectList />
+          <SupportedProjectList openProject={(projectId, status) =>
+              this.setState({ selectedProjectId: projectId, status: status, detailModal: true })}/>
         </View>
         <View style={{ flex: 1 }}>
-          <CompletedProjectsList openProject={projectId =>
-              this.setState({ selectedProjectId: projectId, modal: true })} />
+          <CompletedProjectsList openProject={(projectId, status) =>
+              this.setState({ selectedProjectId: projectId, status: status, detailModal: true })} />
         </View>
         <CardModal
           swipeArea={height / 3}
@@ -112,6 +113,25 @@ export default class Profil extends React.Component {
             closeModal={() => this.setState({ modal: false })}
           />
         </CardModal>
+          <CardModal
+              swipeArea={height / 3}
+              swipeThreshold={50}
+              isOpen={this.state.detailModal}
+              onClosed={() => this.setState({ detailModal: false })}
+              headerSize={0.16}
+              backdropOpacity={0.7}
+              header={
+                  <View style={{ flex: 0.16, backgroundColor: "transparent" }}>
+                      <ModalLine />
+                  </View>
+              }
+          >
+              <Project
+                  Id={this.state.selectedProjectId}
+                  status={this.state.status}
+                  closeModal={() => this.setState({ detailModal: false })}
+              />
+          </CardModal>
       </View>
     );
   }
