@@ -5,7 +5,6 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 
 const GLOBAL = require("../Global");
 
-
 export default class EditProject extends React.Component {
 
     constructor(props) {
@@ -54,7 +53,7 @@ export default class EditProject extends React.Component {
 
 
     getUserData() {
-        fetch(GLOBAL.SERVER_URL + "/api/users/current", {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.USER, {
             method: "GET",
         })
             .then((response) => response.json())
@@ -88,7 +87,7 @@ export default class EditProject extends React.Component {
 
     deleteCurrentProject() {
         if (this.state.status === 0) {
-            fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
+            fetch(GLOBAL.SERVER_URL + GLOBAL.PROJECTS + this.state.projectId, {
                 method: "DELETE",
             })
                 .then((response) => {
@@ -112,7 +111,7 @@ export default class EditProject extends React.Component {
 
 
     getProjectData() {
-        fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.PROJECTS + this.state.projectId, {
             method: "GET",
         })
             .then((response) => response.json())
@@ -177,7 +176,7 @@ export default class EditProject extends React.Component {
     }
 
     SendProjectsDatas(project) {
-        fetch(GLOBAL.SERVER_URL + "/api/projects/" + this.state.projectId, {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.PROJECTS + this.state.projectId, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',

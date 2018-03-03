@@ -38,7 +38,7 @@ export default class Login extends React.Component {
     }
     formBody = formBody.join("&");
 
-    fetch(GLOBAL.SERVER_URL + "/login", {
+    fetch(GLOBAL.SERVER_URL + GLOBAL.LOGIN, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"

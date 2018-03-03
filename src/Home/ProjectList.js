@@ -40,7 +40,7 @@ export default class ProjectList extends React.Component {
   }
 
   fetchProjects() {
-    fetch(GLOBAL.SERVER_URL + "/api/projects", {
+    fetch(GLOBAL.SERVER_URL + GLOBAL.PROJECTS, {
       method: "GET"
     })
         .then(response => response.json())

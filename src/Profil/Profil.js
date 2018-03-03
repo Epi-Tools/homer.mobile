@@ -36,7 +36,7 @@ export default class Profil extends React.Component {
   }
 
   componentWillMount() {
-    fetch(GLOBAL.SERVER_URL + "/api/users/current", {
+    fetch(GLOBAL.SERVER_URL + GLOBAL.USER, {
       method: "GET"
     })
       .then(response => response.json())
@@ -91,7 +91,8 @@ export default class Profil extends React.Component {
           <SupportedProjectList />
         </View>
         <View style={{ flex: 1 }}>
-          <CompletedProjectsList />
+          <CompletedProjectsList openProject={projectId =>
+              this.setState({ selectedProjectId: projectId, modal: true })} />
         </View>
         <CardModal
           swipeArea={height / 3}
