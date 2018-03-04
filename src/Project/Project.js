@@ -94,6 +94,22 @@ export default class Project extends React.Component {
           });
     }
 
+    GetContributorsList() {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.BETS + this.state.idProject, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                this.setState({
+                    usersBet: responseJson,
+                });
+                this.CheckUserBet()
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
     GetOwnerInfo(id) {
         fetch(GLOBAL.SERVER_URL + GLOBAL.USERS + id, {
             method: "GET"

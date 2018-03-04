@@ -8,5 +8,6 @@ module.exports = {
     BETS: "/api/bets/project/provided/",
     USE_BET: "/api/bets/",
     SUPPORTED_PROJECTS: "/api/bets/project/my/",
-    USERS: "/api/users/"
+    USERS: "/api/users/",
+    ADD_CONTRIBUTOR: "/api/contributors/project/"
 };

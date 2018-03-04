@@ -23,7 +23,8 @@ export default class EditProject extends React.Component {
             status : "",
             projectId: props.Id,
             type: -1,
-            isDateTimePickerVisible: false
+            isDateTimePickerVisible: false,
+            contributor: ""
         };
     }
 
@@ -173,6 +174,39 @@ export default class EditProject extends React.Component {
             return false;
         };
         return true;
+    }
+
+    addContributors() {
+        let contributor = {
+            email: this.state.contributor,
+            projectId: this.state.projectId
+        };
+        fetch(GLOBAL.SERVER_URL + GLOBAL.ADD_CONTRIBUTOR + this.state.projectId, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(contributor)
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                if (responseData.error === "User not found")
+                    this.messageAntiDelete("Contributors", "User not found");
+                else
+                {
+                    Alert.alert(
+                        "Contributors",
+                        "The user has been succesfully added.",
+                        [{ text: "OK", onPress: () => this.props.closeModal() }],
+                        { cancelable: false }
+                    );
+                }
+            })
+            .catch((err) => {
+                this.checkInternetConnection()
+                console.log(err);
+            });
     }
 
     SendProjectsDatas(project) {
@@ -366,6 +400,36 @@ export default class EditProject extends React.Component {
                         </Text>
                     </TouchableOpacity>
                     <Text style={styles.label}>{Moment(this.state.dateDelivery).format("LL")}</Text>
+                    <View style={styles.separator} />
+                    <Text style={styles.label}>Contributor email</Text>
+                    <View style={styles.separator} />
+                    <TextInput
+                        style={{ height: 40, borderColor: "white", borderWidth: 1, color: "white" }}
+                        onChangeText={text => this.setState({ contributor: text })}
+                    />
+                    <View style={styles.separator} />
+                    <TouchableOpacity
+                        onPress={() => this.addContributors()}
+                        style={{
+                            flex: 1,
+                            height: 60,
+                            backgroundColor: "#60AAFF",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: 15
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "#E3E3E3",
+                                fontSize: 20,
+                                fontFamily: "sukhumvitset"
+                            }}
+                        >
+                            Add Contributor
+                        </Text>
+                    </TouchableOpacity>
+                    <View style={styles.separator} />
                     <View style={styles.separator} />
                     <TouchableOpacity
                         onPress={() => this.onEditProject()}
