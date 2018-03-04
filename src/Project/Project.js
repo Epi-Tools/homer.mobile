@@ -256,7 +256,105 @@ export default class Project extends React.Component {
 
   render() {
     let project = this.state.projectInfo;
-    if (this.state.status !== 1)
+      if (this.state.status === 3 || this.state.status === 4 || this.state.status === 5)
+          return (
+              <View style={styles.container}>
+                  <View
+                      style={{
+                          flex: 0.2,
+                          alignItems: "center",
+                          justifyContent: "center"
+                      }}
+                  >
+                      <Text style={styles.header}>{project.name}</Text>
+                      <Text style={styles.owner}>{this.state.owner.email}</Text>
+                  </View>
+                  <ScrollView style={{ flex: 1 }}>
+                      <View
+                          style={{
+                              backgroundColor: "#525050",
+                              borderLeftWidth: 4,
+                              borderLeftColor: "#60AAFF",
+                              padding: 20
+                          }}
+                      >
+                          <Text style={styles.text}>{project.description}</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                          <View style={styles.date}>
+                              <Text style={styles.text}>
+                                  {Moment(project.dateFollowUp).format("LL")}
+                              </Text>
+                          </View>
+                          <Text style={styles.text}>{project.followUp}</Text>
+                          <View style={styles.date}>
+                              <Text style={styles.text}>
+                                  {Moment(project.dateFollowUp1).format("LL")}
+                              </Text>
+                          </View>
+                          <Text style={styles.text}>{project.followUp1}</Text>
+                          <View style={styles.date}>
+                              <Text style={styles.text}>
+                                  {Moment(project.dateDelivery).format("LL")}
+                              </Text>
+                          </View>
+                          <Text style={styles.text}>{project.delivery}</Text>
+                          <View style={styles.separator}/>
+                          <TouchableOpacity
+                              onPress={() => this.removeBetProject()}
+                              style={{
+                                  flex: 1,
+                                  height: 60,
+                                  backgroundColor: "green",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: 15
+                              }}
+                          >
+                              <Text
+                                  style={{
+                                      color: "#E3E3E3",
+                                      fontSize: 20,
+                                      fontFamily: "sukhumvitset"
+                                  }}
+                              >
+                                  Validate
+                              </Text>
+                          </TouchableOpacity>
+                      </View>
+                      <View style={styles.separator}/>
+                      <View style={styles.separator}/>
+                      <View style={styles.separator}/>
+                      <View
+                          style={{
+                              backgroundColor: "#525050",
+                              borderLeftWidth: 4,
+                              borderLeftColor: "#60AAFF",
+                              padding: 20
+                          }}
+                      >
+                          <Text style={styles.text}>Bets</Text>
+                      </View>
+                      {this.state.usersBet.map((item, i) =>
+                          this.UserListRender(item, i)
+                      )}
+                      <View
+                          style={{
+                              backgroundColor: "#525050",
+                              borderLeftWidth: 4,
+                              borderLeftColor: "#60AAFF",
+                              padding: 20
+                          }}
+                      >
+                          <Text style={styles.text}>Contributors</Text>
+                      </View>
+                      {this.state.contributors.map((item, i) =>
+                          this.UserContributorsRender(item, i)
+                      )}
+                  </ScrollView>
+              </View>
+          );
+    else if (this.state.status !== 1)
         return (
             <View style={styles.container}>
                 <View
@@ -547,6 +645,7 @@ export default class Project extends React.Component {
                 </ScrollView>
             </View>
         );
+
   }
 }
 
