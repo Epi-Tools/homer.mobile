@@ -19,10 +19,10 @@ export default class MyProjectList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      error: "",
-      projects: [],
-      refreshing: false
+        loading: true,
+        error: "",
+        projects: [],
+        refreshing: false,
     };
   }
 
@@ -51,10 +51,36 @@ export default class MyProjectList extends React.Component {
   }
 
   ProjectListRender(currentProject, i) {
+    if (currentProject.status === 0)
+        return (
+            <TouchableOpacity
+                style={styles.card}
+                onPress={() => this.props.openEdit(currentProject.id, currentProject.status)}
+                activeOpacity={0.7}
+                key={i}
+            >
+                <View
+                    style={{
+                        flex: 2,
+                        flexDirection: "row",
+                        justifyContent: "center"
+                    }}
+                >
+                    <View style={{ flex: 0.9, justifyContent: "center" }}>
+                        <Text style={styles.projectText}>{currentProject.name}</Text>
+                        <Text style={styles.projectText}>
+                            {currentProject.currentSpices} / {currentProject.spices}
+                        </Text>
+                    </View>
+                </View>
+                <ProgressBar percentage={(currentProject.status / 6) * 100} />
+            </TouchableOpacity>
+        );
+    else
     return (
       <TouchableOpacity
         style={styles.card}
-        onPress={() => this.props.openProject(currentProject.id)}
+        onPress={() => this.props.openProject(currentProject.id, currentProject.status)}
         activeOpacity={0.7}
         key={i}
       >

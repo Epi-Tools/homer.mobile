@@ -82,9 +82,8 @@ export default class Profil extends React.Component {
           </View>
         </View>
         <View style={{ flex: 1 }}>
-          <MyProjectList
-            openProject={projectId =>
-              this.setState({ selectedProjectId: projectId, modal: true })}
+          <MyProjectList openEdit={(projectId, status) => this.setState({ selectedProjectId: projectId, modal: true })}
+                         openProject={(projectId, status) => this.setState({ selectedProjectId: projectId, status: status, detailModal: true })}
           />
         </View>
         <View style={{ flex: 1 }}>
