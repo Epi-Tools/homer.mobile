@@ -54,7 +54,25 @@ export default class SupportedProjectsList extends React.Component {
             });
     }
 
+    getCurrentStatus(status) {
+        if (status === 0)
+            return ("En création");
+        else if (status === 1)
+            return ("Lancé");
+        else if (status === 2)
+            return ("Validé");
+        else if (status === 3)
+            return ("Follow-up 1");
+        else if (status === 4)
+            return ("Follow-up 2");
+        else if (status === 5)
+            return ("Delivery");
+        else
+            return ("Terminé");
+    }
+
     ProjectListRender(currentProject, i) {
+        let status = this.getCurrentStatus(currentProject.projectStatus);
         return (
             <TouchableOpacity
                 style={styles.card}
@@ -75,6 +93,10 @@ export default class SupportedProjectsList extends React.Component {
                           Spices bet : {currentProject.spices}
                         </Text>
                     </View>
+
+                </View>
+                <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                    <Text style={styles.epices}>{status}</Text>
                 </View>
                 <ProgressBar percentage={(currentProject.projectStatus / 6) * 100} />
             </TouchableOpacity>
@@ -185,5 +207,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#545454",
         fontFamily: "sukhumvitset"
-    }
+    },
+    epices: {
+        fontSize: 15,
+        color: "#808080",
+        fontFamily: "sukhumvitset"
+    },
 });

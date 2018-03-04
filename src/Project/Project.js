@@ -21,21 +21,21 @@ export default class Project extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idProject: props.Id,
-      userId: 0,
+        idProject: props.Id,
+        userId: 0,
         usersBet: [],
         projectInfo: [],
-      bets: 5,
+        bets: 5,
         status: props.status,
         button: 1
     };
     console.log(this.state.status);
   }
 
-  componentWillMount() {
-    console.log(this.state.idProject);
+  componentDidMount() {
+      console.log(this.state.idProject);
       this.GetUserInfo();
-     this.GetBetUserList();
+      this.GetBetUserList();
   }
 
   GetProjectInfo() {

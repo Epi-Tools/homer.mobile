@@ -214,7 +214,10 @@ export default class CreateProject extends React.Component {
                     Date Follow Up 1
                 </Text>
             </TouchableOpacity>
-            <Text style={styles.label}>{Moment(this.state.dateFollowUp).format("LL")}</Text>
+            <Text style={styles.label}>
+                {this.state.dateFollowUp !== "" && Moment(this.state.dateFollowUp).format("LL")}
+                {this.state.dateFollowUp === "" && <Text>Please select a date</Text>}
+            </Text>
             <View style={styles.separator} />
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
@@ -251,7 +254,10 @@ export default class CreateProject extends React.Component {
                     Date Follow Up 2
                 </Text>
             </TouchableOpacity>
-            <Text style={styles.label}>{Moment(this.state.dateFollowUp1).format("LL")}</Text>
+            <Text style={styles.label}>
+                {this.state.dateFollowUp1 !== "" && Moment(this.state.dateFollowUp1).format("LL")}
+                {this.state.dateFollowUp1 === "" && <Text>Please select a date</Text>}
+            </Text>
             <View style={styles.separator} />
           <Text style={styles.label}>Delivery</Text>
             <TextInput
@@ -282,7 +288,10 @@ export default class CreateProject extends React.Component {
                     Date Delivery
                 </Text>
             </TouchableOpacity>
-            <Text style={styles.label}>{Moment(this.state.dateDelivery).format("LL")}</Text>
+            <Text style={styles.label}>
+                {this.state.dateDelivery !== "" && Moment(this.state.dateDelivery).format("LL")}
+                {this.state.dateDelivery === "" && <Text>Please select a date</Text>}
+            </Text>
           <View style={styles.separator} />
           <TouchableOpacity
             onPress={() => this.onCreateProject()}
