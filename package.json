@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "jest-expo": "^22.0.0",
-    "react-native-scripts": "1.6.0",
+    "react-native-scripts": "^1.6.0",
     "react-test-renderer": "16.0.0-beta.5"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -23,9 +23,10 @@
     "expo": "^25.0.0",
     "moment": "^2.21.0",
     "prettier": "^1.11.1",
-    "react": "16.2.0",
-    "react-native": "^0.52.0",
+    "react": "^16.2.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-fab": "^1.0.6",
-    "react-native-modal-datetime-picker": "^4.13.0"
+    "react-native-modal-datetime-picker": "^4.13.0",
+    "tar": "^4.4.0"
   }
 }
