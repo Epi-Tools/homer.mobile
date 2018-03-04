@@ -9,5 +9,6 @@ module.exports = {
     USE_BET: "/api/bets/",
     SUPPORTED_PROJECTS: "/api/bets/project/my/",
     USERS: "/api/users/",
-    ADD_CONTRIBUTOR: "/api/contributors/project/"
+    ADD_CONTRIBUTOR: "/api/contributors/project/",
+    CONTRIBUTORS: "/api/contributors"
 };

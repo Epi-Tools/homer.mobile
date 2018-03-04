@@ -41,7 +41,7 @@ export default class SupportedProjectsList extends React.Component {
             .then(responseJson => {
                 console.log(responseJson);
                 this.setState({
-                    projects: responseJson,
+                    projects: responseJson.reverse(),
                     loading: false,
                     error: ""
                 });

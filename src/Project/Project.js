@@ -27,8 +27,9 @@ export default class Project extends React.Component {
         projectInfo: [],
         bets: 5,
         status: props.status,
-        button: 1,
-        owner: ""
+        button: 0,
+        owner: "",
+        contributors: []
     };
     console.log(this.state.status);
   }
@@ -36,7 +37,7 @@ export default class Project extends React.Component {
   componentDidMount() {
       console.log(this.state.idProject);
       this.GetUserInfo();
-      this.GetBetUserList();
+      this.getContributorsList();
   }
 
   GetProjectInfo() {
@@ -64,7 +65,8 @@ export default class Project extends React.Component {
               this.setState({
                   userId: responseJson.id
               });
-              this.GetProjectInfo()
+              this.GetProjectInfo();
+              this.GetBetUserList();
           })
           .catch(error => {
               console.error(error);
@@ -74,7 +76,7 @@ export default class Project extends React.Component {
   CheckUserBet() {
       this.state.usersBet.map((item, i) => {
          if (item.userId === this.state.userId)
-             this.setState({button: 0})
+             this.setState({button: 1})
       });
   }
 
@@ -94,16 +96,39 @@ export default class Project extends React.Component {
           });
     }
 
-    GetContributorsList() {
-        fetch(GLOBAL.SERVER_URL + GLOBAL.BETS + this.state.idProject, {
+    getContributorsRender(contribute) {
+        contribute.map((item, i) => {
+            console.log("Project id : " + this.state.idProject);
+            console.log("Project id contributor : " + item.projectId);
+                if (this.state.idProject === item.projectId)
+                {
+                    console.log("pass here");
+                    this.getContributorsEmail(item.userId);
+                }
+            }
+        );
+    }
+
+    getContributorsEmail(id) {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.USERS + id, {
             method: "GET"
         })
             .then(response => response.json())
             .then(responseJson => {
-                this.setState({
-                    usersBet: responseJson,
-                });
-                this.CheckUserBet()
+                this.setState({contributors: [...this.state.contributors, responseJson.email]})
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    getContributorsList() {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.CONTRIBUTORS, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                this.getContributorsRender(responseJson);
             })
             .catch(error => {
                 console.error(error);
@@ -139,6 +164,20 @@ export default class Project extends React.Component {
         );
     }
 
+
+    UserContributorsRender(user, i) {
+        return (
+            <View key={i}>
+                <View style={{padding: 10}}>
+                    <View style={{ flexDirection: "row", paddingLeft: 10, flex: 1}}>
+                        <Text style={styles.bets}>{user.split('@').shift().split('.').join(' ')}</Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
+
   alertMessage(title, message) {
     Alert.alert(
       title,
@@ -146,6 +185,38 @@ export default class Project extends React.Component {
       [{ text: "OK", onPress: () => console.log("success") }],
       { cancelable: false }
     );
+  }
+
+  removeBetProject() {
+      let project = {
+          userId: this.state.userId,
+          projectId: this.state.idProject,
+          spices: this.state.bets
+      };
+      fetch(GLOBAL.SERVER_URL + GLOBAL.USE_BET, {
+          method: "delete",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(project)
+      })
+          .then(response => {
+              if (response.status === 200) {
+                  this.alertMessage(
+                      "Bets",
+                      "You successfully bet " +
+                      this.state.bets +
+                      " spices on this project"
+                  );
+                  this.setState({button: 0});
+                  this.GetBetUserList();
+              }
+          })
+          .catch(error => {
+              this.alertMessage("Authentication Error", "Network request failed.");
+              console.error(error);
+          });
   }
 
   betsProject() {
@@ -170,11 +241,9 @@ export default class Project extends React.Component {
               this.state.bets +
               " spices on this project"
           );
-              this.setState({status: 0});
+              this.setState({button: 1})
               this.GetBetUserList();
-
           } else {
-              this.setState({status: 0});
               response.json().then(e => this.alertMessage("Error", e.error || "Can not bet this project"))
               .catch(() => this.alertMessage("Error", "You can not bet on this project"));
         }
@@ -187,7 +256,84 @@ export default class Project extends React.Component {
 
   render() {
     let project = this.state.projectInfo;
-    if (this.state.status !== 0 && this.state.button !== 0)
+    if (this.state.status !== 1)
+        return (
+            <View style={styles.container}>
+                <View
+                    style={{
+                        flex: 0.2,
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                >
+                    <Text style={styles.header}>{project.name}</Text>
+                    <Text style={styles.owner}>{this.state.owner.email}</Text>
+                </View>
+                <ScrollView style={{ flex: 1 }}>
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>{project.description}</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <View style={styles.date}>
+                            <Text style={styles.text}>
+                                {Moment(project.dateFollowUp).format("LL")}
+                            </Text>
+                        </View>
+                        <Text style={styles.text}>{project.followUp}</Text>
+                        <View style={styles.date}>
+                            <Text style={styles.text}>
+                                {Moment(project.dateFollowUp1).format("LL")}
+                            </Text>
+                        </View>
+                        <Text style={styles.text}>{project.followUp1}</Text>
+                        <View style={styles.date}>
+                            <Text style={styles.text}>
+                                {Moment(project.dateDelivery).format("LL")}
+                            </Text>
+                        </View>
+                        <Text style={styles.text}>{project.delivery}</Text>
+                    </View>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>Bets</Text>
+                    </View>
+                    {this.state.usersBet.map((item, i) =>
+                        this.UserListRender(item, i)
+                    )}
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>Contributors</Text>
+                    </View>
+                    {this.state.contributors.map((item, i) =>
+                        this.UserContributorsRender(item, i)
+                    )}
+                </ScrollView>
+            </View>
+        );
+    if (this.state.status === 1 && this.state.button === 0)
         return (
             <View style={styles.container}>
                 <View
@@ -286,10 +432,23 @@ export default class Project extends React.Component {
                     {this.state.usersBet.map((item, i) =>
                         this.UserListRender(item, i)
                     )}
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>Contributors</Text>
+                    </View>
+                    {this.state.contributors.map((item, i) =>
+                        this.UserContributorsRender(item, i)
+                    )}
                 </ScrollView>
             </View>
         );
-    else
+    else if (this.state.status === 1 && this.state.button === 1)
         return (
             <View style={styles.container}>
                 <View
@@ -332,8 +491,30 @@ export default class Project extends React.Component {
                             </Text>
                         </View>
                         <Text style={styles.text}>{project.delivery}</Text>
+                        <View style={styles.separator}/>
+                        <View style={styles.separator}/>
+                        <TouchableOpacity
+                            onPress={() => this.removeBetProject()}
+                            style={{
+                                flex: 1,
+                                height: 60,
+                                backgroundColor: "red",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRadius: 15
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: "#E3E3E3",
+                                    fontSize: 20,
+                                    fontFamily: "sukhumvitset"
+                                }}
+                            >
+                                Remove your Bet
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.separator}/>
                     <View style={styles.separator}/>
                     <View style={styles.separator}/>
                     <View style={styles.separator}/>
@@ -349,6 +530,19 @@ export default class Project extends React.Component {
                     </View>
                     {this.state.usersBet.map((item, i) =>
                         this.UserListRender(item, i)
+                    )}
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>Contributors</Text>
+                    </View>
+                    {this.state.contributors.map((item, i) =>
+                        this.UserContributorsRender(item, i)
                     )}
                 </ScrollView>
             </View>
