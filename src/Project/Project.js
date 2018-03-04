@@ -96,10 +96,13 @@ export default class Project extends React.Component {
     UserListRender(user, i) {
         return (
             <View key={i}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between"}}>
-                        <Text style={styles.text}>{user.username.split('@').shift().split('.').join(' ')}</Text>
-                        <Text style={styles.text}>{user.spices}</Text>
+                <View style={{padding: 20}}>
+                    <View style={{ flexDirection: "row", paddingLeft: 10, flex: 1}}>
+                        <Text style={styles.bets}>{user.spices}</Text>
+                        <Text style={styles.bets}>-</Text>
+                        <Text style={styles.bets}>{user.username.split('@').shift().split('.').join(' ')}</Text>
                     </View>
+                </View>
             </View>
         );
     }
@@ -234,6 +237,19 @@ export default class Project extends React.Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>Bets</Text>
+                    </View>
                     {this.state.usersBet.map((item, i) =>
                         this.UserListRender(item, i)
                     )}
@@ -284,6 +300,19 @@ export default class Project extends React.Component {
                         <Text style={styles.text}>{project.delivery}</Text>
                     </View>
                     <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View style={styles.separator}/>
+                    <View
+                        style={{
+                            backgroundColor: "#525050",
+                            borderLeftWidth: 4,
+                            borderLeftColor: "#60AAFF",
+                            padding: 20
+                        }}
+                    >
+                        <Text style={styles.text}>Bets</Text>
+                    </View>
                     {this.state.usersBet.map((item, i) =>
                         this.UserListRender(item, i)
                     )}
@@ -317,5 +346,11 @@ const styles = StyleSheet.create({
   },
     separator: {
       height: 10
-    }
+  },
+    bets: {
+        color: "#E3E3E3",
+        fontSize: 18,
+        fontFamily: "sukhumvitset",
+        paddingRight: 20
+    },
 });
