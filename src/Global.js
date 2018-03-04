@@ -7,5 +7,6 @@ module.exports = {
     FINISHED_PROJECTS: "/api/projects/finished/my/",
     BETS: "/api/bets/project/provided/",
     USE_BET: "/api/bets/",
-    SUPPORTED_PROJECTS: "/api/bets/project/my/"
+    SUPPORTED_PROJECTS: "/api/bets/project/my/",
+    USERS: "/api/users/"
 };

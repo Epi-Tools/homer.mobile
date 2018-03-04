@@ -27,7 +27,8 @@ export default class Project extends React.Component {
         projectInfo: [],
         bets: 5,
         status: props.status,
-        button: 1
+        button: 1,
+        owner: ""
     };
     console.log(this.state.status);
   }
@@ -47,6 +48,7 @@ export default class Project extends React.Component {
               this.setState({
                   projectInfo: responseJson
               });
+              this.GetOwnerInfo(responseJson.userId);
           })
           .catch(error => {
               console.error(error);
@@ -92,6 +94,20 @@ export default class Project extends React.Component {
           });
     }
 
+    GetOwnerInfo(id) {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.USERS + id, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                this.setState({
+                    owner: responseJson,
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
 
     UserListRender(user, i) {
         return (
@@ -165,7 +181,8 @@ export default class Project extends React.Component {
                         justifyContent: "center"
                     }}
                 >
-                    <Text style={styles.title}>{project.name}</Text>
+                    <Text style={styles.header}>{project.name}</Text>
+                    <Text style={styles.owner}>{this.state.owner.email}</Text>
                 </View>
                 <ScrollView style={{ flex: 1 }}>
                     <View
@@ -266,7 +283,8 @@ export default class Project extends React.Component {
                         justifyContent: "center"
                     }}
                 >
-                    <Text style={styles.title}>{project.name}</Text>
+                    <Text style={styles.header}>{project.name}</Text>
+                    <Text style={styles.owner}>{this.state.owner.email}</Text>
                 </View>
                 <ScrollView style={{ flex: 1 }}>
                     <View
@@ -334,6 +352,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontFamily: "sukhumvitset"
   },
+    header: {
+        color: "#E3E3E3",
+        fontSize: 25,
+        fontFamily: "sukhumvitset"
+    },
+    owner: {
+        color: "#E3E3E3",
+        fontSize: 15,
+        fontFamily: "sukhumvitset"
+    },
   text: {
     color: "#E3E3E3",
     fontSize: 18,
