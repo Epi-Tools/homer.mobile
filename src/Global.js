@@ -1,5 +1,5 @@
 module.exports = {
-    SERVER_URL: "https://dev-homer-strasbourg.cleverapps.io/",
+    SERVER_URL: "https://dev-homer-strasbourg.cleverapps.io",
     PROJECTS: "/api/projects/",
     LOGIN: "/login",
     USER: "/api/users/current/",
