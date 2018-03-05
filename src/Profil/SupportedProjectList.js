@@ -128,7 +128,7 @@ export default class SupportedProjectsList extends React.Component {
           </View>
         </View>
       );
-    if (this.state.projects.length < 0)
+    if (this.state.projects.length <= 0)
       return (
         <View style={styles.container}>
           <View style={{ flex: 0.9 }}>

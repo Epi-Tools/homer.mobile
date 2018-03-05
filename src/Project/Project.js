@@ -29,7 +29,8 @@ export default class Project extends React.Component {
         status: props.status,
         button: 0,
         owner: "",
-        contributors: []
+        contributors: [],
+        betId: 0
     };
     console.log(this.state.status);
   }
@@ -76,7 +77,7 @@ export default class Project extends React.Component {
   CheckUserBet() {
       this.state.usersBet.map((item, i) => {
          if (item.userId === this.state.userId)
-             this.setState({button: 1})
+             this.setState({button: 1, betId: item.id})
       });
   }
 
@@ -193,7 +194,7 @@ export default class Project extends React.Component {
           projectId: this.state.idProject,
           spices: this.state.bets
       };
-      fetch(GLOBAL.SERVER_URL + GLOBAL.USE_BET, {
+      fetch(GLOBAL.SERVER_URL + GLOBAL.USE_BET + this.state.betId, {
           method: "delete",
           headers: {
               Accept: "application/json",
@@ -205,7 +206,7 @@ export default class Project extends React.Component {
               if (response.status === 200) {
                   this.alertMessage(
                       "Bets",
-                      "You successfully bet " +
+                      "You successfully removed " +
                       this.state.bets +
                       " spices on this project"
                   );
