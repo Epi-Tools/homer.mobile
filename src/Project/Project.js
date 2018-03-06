@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  Image,
-  Button,
   Picker,
   Alert
 } from "react-native";
@@ -30,7 +28,8 @@ export default class Project extends React.Component {
         button: 0,
         owner: "",
         contributors: [],
-        betId: 0
+        betId: 0,
+        validations: []
     };
     console.log(this.state.status);
   }
@@ -41,6 +40,35 @@ export default class Project extends React.Component {
       this.getContributorsList();
   }
 
+    CheckUserValidation(userValidation) {
+        userValidation.map((item, i) => {
+            if (item.project.id === this.state.idProject)
+            {
+                if (item.user.id === this.state.userId)
+                {
+                    if (item.valid === true)
+                        this.setState({button: 1});
+                    else
+                        this.setState({button: 0});
+                }
+                this.setState({validations: [...this.state.validations, item]})
+            }
+        });
+    }
+
+    getValidationsList() {
+        fetch(GLOBAL.SERVER_URL + GLOBAL.VALIDATION, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                this.CheckUserValidation(responseJson);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
   GetProjectInfo() {
       fetch(GLOBAL.SERVER_URL + GLOBAL.PROJECTS + this.state.idProject, {
           method: "GET"
@@ -48,7 +76,8 @@ export default class Project extends React.Component {
           .then(response => response.json())
           .then(responseJson => {
               this.setState({
-                  projectInfo: responseJson
+                  projectInfo: responseJson,
+                  status: responseJson.status
               });
               this.GetOwnerInfo(responseJson.userId);
           })
@@ -68,6 +97,8 @@ export default class Project extends React.Component {
               });
               this.GetProjectInfo();
               this.GetBetUserList();
+              if (this.state.status === 3  || this.state.status === 4 || this.state.status === 5)
+                  this.getValidationsList();
           })
           .catch(error => {
               console.error(error);
@@ -90,6 +121,7 @@ export default class Project extends React.Component {
               this.setState({
                   usersBet: responseJson,
               });
+              if (this.state.status === 1)
               this.CheckUserBet()
           })
           .catch(error => {
@@ -178,6 +210,25 @@ export default class Project extends React.Component {
         );
     }
 
+    UserValidationRender(item, i) {
+        return (
+            <View key={i}>
+                <View style={{padding: 10}}>
+                    <View style={{ flexDirection: "row", paddingLeft: 10, flex: 1}}>
+                            {item.valid === false && <Text style={styles.fail}>NO</Text>}
+                            {item.valid === true && <Text style={styles.valid}>YES</Text>}
+                        <Text style={styles.bets}>
+                            {item.status === 3 && "Follow-Up 1"}
+                            {item.status === 4 && "Follow-Up 2"}
+                            {item.status === 5 && "Delivery"}
+                        </Text>
+                        <Text style={styles.bets}>{item.user.email.split('@').shift().split('.').join(' ')}</Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
 
   alertMessage(title, message) {
     Alert.alert(
@@ -204,6 +255,7 @@ export default class Project extends React.Component {
       })
           .then(response => {
               if (response.status === 200) {
+
                   this.alertMessage(
                       "Bets",
                       "You successfully removed " +
@@ -242,8 +294,9 @@ export default class Project extends React.Component {
               this.state.bets +
               " spices on this project"
           );
-              this.setState({button: 1})
+              this.setState({button: 1});
               this.GetBetUserList();
+              this.GetProjectInfo();
           } else {
               response.json().then(e => this.alertMessage("Error", e.error || "Can not bet this project"))
               .catch(() => this.alertMessage("Error", "You can not bet on this project"));
@@ -255,9 +308,48 @@ export default class Project extends React.Component {
       });
   }
 
+    validateProject() {
+        let project = {
+            userId: this.state.userId,
+            projectId: this.state.idProject,
+        };
+        fetch(GLOBAL.SERVER_URL + GLOBAL.USE_VALIDATION + this.state.idProject, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(project)
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    let valid;
+                    if (this.state.status === 3 || this.state.status === 4)
+                        valid = "followUp";
+                    else
+                        valid = "delivery";
+                        this.alertMessage(
+                        "Validation",
+                        "You successfully validate this " +
+                        valid
+                    );
+                    this.setState({button: 1, validations: []});
+                    this.getValidationsList();
+                } else {
+                    response.json().then(e => this.alertMessage("Error", e.error || "Can not bet this project"))
+                        .catch(() => this.alertMessage("Error", "You can not bet on this project"));
+                }
+            })
+            .catch(error => {
+                this.alertMessage("Authentication Error", "Network request failed.");
+                console.error(error);
+            });
+    }
+
   render() {
     let project = this.state.projectInfo;
-      if (this.state.status === 3 || this.state.status === 4 || this.state.status === 5)
+      if (this.state.status === 3 && this.state.button === 0 || this.state.status === 4 && this.state.button === 0 ||
+          this.state.status === 5 && this.state.button === 0)
           return (
               <View style={styles.container}>
                   <View
@@ -269,6 +361,7 @@ export default class Project extends React.Component {
                   >
                       <Text style={styles.header}>{project.name}</Text>
                       <Text style={styles.owner}>{this.state.owner.email}</Text>
+                      <Text style={styles.owner}>{project.currentSpices}/{project.spices}</Text>
                   </View>
                   <ScrollView style={{ flex: 1 }}>
                       <View
@@ -302,7 +395,7 @@ export default class Project extends React.Component {
                           <Text style={styles.text}>{project.delivery}</Text>
                           <View style={styles.separator}/>
                           <TouchableOpacity
-                              onPress={() => this.removeBetProject()}
+                              onPress={() => this.validateProject()}
                               style={{
                                   flex: 1,
                                   height: 60,
@@ -334,10 +427,89 @@ export default class Project extends React.Component {
                               padding: 20
                           }}
                       >
-                          <Text style={styles.text}>Bets</Text>
+                          <Text style={styles.text}>Validations</Text>
                       </View>
-                      {this.state.usersBet.map((item, i) =>
-                          this.UserListRender(item, i)
+                      {this.state.validations.map((item, i) =>
+                          this.UserValidationRender(item, i)
+                      )}
+                      <View
+                          style={{
+                              backgroundColor: "#525050",
+                              borderLeftWidth: 4,
+                              borderLeftColor: "#60AAFF",
+                              padding: 20
+                          }}
+                      >
+                          <Text style={styles.text}>Contributors</Text>
+                      </View>
+                      {this.state.contributors.map((item, i) =>
+                          this.UserContributorsRender(item, i)
+                      )}
+                  </ScrollView>
+              </View>
+          );
+      else if (this.state.status === 3 && this.state.button === 1 || this.state.status === 4 && this.state.button === 1 ||
+          this.state.status === 5 && this.state.button === 1)
+          return (
+              <View style={styles.container}>
+                  <View
+                      style={{
+                          flex: 0.2,
+                          alignItems: "center",
+                          justifyContent: "center"
+                      }}
+                  >
+                      <Text style={styles.header}>{project.name}</Text>
+                      <Text style={styles.owner}>{this.state.owner.email}</Text>
+                      <Text style={styles.owner}>{project.currentSpices}/{project.spices}</Text>
+                  </View>
+                  <ScrollView style={{ flex: 1 }}>
+                      <View
+                          style={{
+                              backgroundColor: "#525050",
+                              borderLeftWidth: 4,
+                              borderLeftColor: "#60AAFF",
+                              padding: 20
+                          }}
+                      >
+                          <Text style={styles.text}>{project.description}</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                          <View style={styles.date}>
+                              <Text style={styles.text}>
+                                  {Moment(project.dateFollowUp).format("LL")}
+                              </Text>
+                          </View>
+                          <Text style={styles.text}>{project.followUp}</Text>
+                          <View style={styles.date}>
+                              <Text style={styles.text}>
+                                  {Moment(project.dateFollowUp1).format("LL")}
+                              </Text>
+                          </View>
+                          <Text style={styles.text}>{project.followUp1}</Text>
+                          <View style={styles.date}>
+                              <Text style={styles.text}>
+                                  {Moment(project.dateDelivery).format("LL")}
+                              </Text>
+                          </View>
+                          <Text style={styles.text}>{project.delivery}</Text>
+                          <View style={styles.separator}/>
+                      </View>
+                      <View style={styles.separator}/>
+                      <View style={styles.separator}/>
+                      <View style={styles.separator}/>
+                      <View
+                          style={{
+                              backgroundColor: "#525050",
+                              borderLeftWidth: 4,
+                              borderLeftColor: "#60AAFF",
+                              padding: 20
+                          }}
+                      >
+                          <Text style={styles.text}>Validations</Text>
+                      </View>
+                      {this.state.validations.map((item, i) =>
+                          this.UserValidationRender(item, i)
                       )}
                       <View
                           style={{
@@ -367,6 +539,7 @@ export default class Project extends React.Component {
                 >
                     <Text style={styles.header}>{project.name}</Text>
                     <Text style={styles.owner}>{this.state.owner.email}</Text>
+                    <Text style={styles.owner}>{project.currentSpices}/{project.spices}</Text>
                 </View>
                 <ScrollView style={{ flex: 1 }}>
                     <View
@@ -444,6 +617,7 @@ export default class Project extends React.Component {
                 >
                     <Text style={styles.header}>{project.name}</Text>
                     <Text style={styles.owner}>{this.state.owner.email}</Text>
+                    <Text style={styles.owner}>{project.currentSpices}/{project.spices}</Text>
                 </View>
                 <ScrollView style={{ flex: 1 }}>
                     <View
@@ -559,6 +733,7 @@ export default class Project extends React.Component {
                 >
                     <Text style={styles.header}>{project.name}</Text>
                     <Text style={styles.owner}>{this.state.owner.email}</Text>
+                    <Text style={styles.owner}>{project.currentSpices}/{project.spices}</Text>
                 </View>
                 <ScrollView style={{ flex: 1 }}>
                     <View
@@ -677,6 +852,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "sukhumvitset"
   },
+    validation: {
+        color: "#E3E3E3",
+        fontSize: 18,
+        fontFamily: "sukhumvitset",
+        justifyContent: "center",
+        alignItems: "center"
+    },
   date: {
     height: height / 10,
     justifyContent: "center",
@@ -687,6 +869,18 @@ const styles = StyleSheet.create({
   },
     bets: {
         color: "#E3E3E3",
+        fontSize: 18,
+        fontFamily: "sukhumvitset",
+        paddingRight: 20
+    },
+    valid: {
+        color: "green",
+        fontSize: 18,
+        fontFamily: "sukhumvitset",
+        paddingRight: 20
+    },
+    fail: {
+        color: "red",
         fontSize: 18,
         fontFamily: "sukhumvitset",
         paddingRight: 20

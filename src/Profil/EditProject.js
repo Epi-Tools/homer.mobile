@@ -181,32 +181,41 @@ export default class EditProject extends React.Component {
             email: this.state.contributor,
             projectId: this.state.projectId
         };
-        fetch(GLOBAL.SERVER_URL + GLOBAL.ADD_CONTRIBUTOR + this.state.projectId, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(contributor)
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                if (responseData.error === "User not found")
-                    this.messageAntiDelete("Contributors", "User not found");
-                else
-                {
-                    Alert.alert(
-                        "Contributors",
-                        "The user has been succesfully added.",
-                        [{ text: "OK", onPress: () => this.props.closeModal() }],
-                        { cancelable: false }
-                    );
-                }
+        if (this.state.contributor !== "")
+        {
+            fetch(GLOBAL.SERVER_URL + GLOBAL.ADD_CONTRIBUTOR + this.state.projectId, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(contributor)
             })
-            .catch((err) => {
-                this.checkInternetConnection()
-                console.log(err);
-            });
+                .then((response) => response.json())
+                .then((responseData) => {
+                    console.log(responseData);
+                    if (responseData.error === "User not found")
+                        this.messageAntiDelete("Contributors", "User not found");
+                    else if (responseData.error === "Bad Request")
+                        this.messageAntiDelete("Contributors", "User not found");
+                    else
+                    {
+                        Alert.alert(
+                            "Contributors",
+                            "The user has been succesfully added.",
+                            [{ text: "OK", onPress: () => this.props.closeModal() }],
+                            { cancelable: false }
+                        );
+                    }
+                })
+                .catch((err) => {
+                    this.checkInternetConnection()
+                    console.log(err);
+                });
+        }
+        else {
+            this.messageAntiDelete("Contributors", "User not found");
+        }
     }
 
     SendProjectsDatas(project) {

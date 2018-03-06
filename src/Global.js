@@ -1,5 +1,5 @@
 module.exports = {
-    SERVER_URL: "https://dev-homer-strasbourg.cleverapps.io",
+    SERVER_URL: "https://homer-strasbourg.cleverapps.io",
     PROJECTS: "/api/projects/",
     LOGIN: "/login",
     USER: "/api/users/current/",
@@ -10,5 +10,7 @@ module.exports = {
     SUPPORTED_PROJECTS: "/api/bets/project/my/",
     USERS: "/api/users/",
     ADD_CONTRIBUTOR: "/api/contributors/project/",
-    CONTRIBUTORS: "/api/contributors"
+    CONTRIBUTORS: "/api/contributors/",
+    VALIDATION: "/api/validations/",
+    USE_VALIDATION: "/api/validations/status/project/"
 };
