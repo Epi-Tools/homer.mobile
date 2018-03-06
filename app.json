@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "name": "Homer",
+    "icon": "./src/assets/profile.png",
+    "version": "1.0.0",
+    "slug": "homer",
+    "sdkVersion": "25.0.0",
+    "ios": {
+      "bundleIdentifier": "com.epitools.homer"
+    },
+    "android": {
+      "package": "com.epitools.homer"
+    }
   }
 }
